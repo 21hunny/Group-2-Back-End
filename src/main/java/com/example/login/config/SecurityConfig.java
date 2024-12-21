@@ -4,20 +4,33 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+
+    public SecurityConfig(CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable() // Disable CSRF protection for login
-                .authorizeRequests()
-                .requestMatchers("/api/auth/admin/login", "/api/auth/student/login", "/api/auth/lecturer/login")
-                .permitAll() // Allow access to login endpoints without authentication
-                .anyRequest().authenticated(); // Other endpoints require authentication
-        return http.build();  // Return the SecurityFilterChain
+                .csrf().disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/error", "/error/**").permitAll() // Use requestMatchers for endpoint patterns
+                .requestMatchers("/api/auth/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(customAuthenticationEntryPoint) // Use the custom entry point
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // For stateless JWT-based authentication
+        return http.build();
     }
 }
