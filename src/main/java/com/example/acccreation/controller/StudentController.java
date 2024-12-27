@@ -6,6 +6,7 @@ import com.example.acccreation.entity.Student;
 import com.example.acccreation.service.AdminService;
 import com.example.acccreation.service.BatchService;
 import com.example.acccreation.service.StudentService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,30 +28,63 @@ public class StudentController {
 
     /**
      * Creates a new student in the dynamic table batch_<batchId>.
-     *
-     * Now we pass both 'batchId' and 'adminId' as query params, e.g.:
-     * POST /api/student/add?batchId=B2024&adminId=A001
      */
-    @PostMapping("/add")
-    public ResponseEntity<Student> createStudent(@RequestParam String batchId,
-                                                 @RequestParam String adminId,    // <--- added
-                                                 @RequestBody Student studentRequest)
-    {
-        // 1) Find the Admin
+    @PostMapping("/add/{batchId}")
+    public ResponseEntity<?> createStudent(@PathVariable String batchId,
+                                           HttpSession session,
+                                           @RequestBody Student studentRequest) {
+        String adminId = (String) session.getAttribute("userAId");
+        if (adminId == null) {
+            return ResponseEntity.badRequest().body("Admin ID not found in session.");
+        }
+
         Optional<Admin> adminOpt = adminService.findById(adminId);
         if (adminOpt.isEmpty()) {
-            return ResponseEntity.badRequest().build(); // or 404
+            return ResponseEntity.badRequest().body("Admin not found.");
         }
         Admin admin = adminOpt.get();
 
-        // 2) Find the Batch
         Batch batch = batchService.getBatchById(batchId);
         if (batch == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.badRequest().body("Batch not found.");
         }
 
-        // 3) Create the student in batch_<batchId>
-        Student newStudent = studentService.createStudent(studentRequest, admin, batch);
-        return ResponseEntity.ok(newStudent);
+        try {
+            Student newStudent = studentService.createStudent(studentRequest, admin, batch);
+            return ResponseEntity.ok(newStudent);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error while creating student: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Updates an existing student.
+     */
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable("id") String studentId,
+                                           @RequestBody Student studentRequest) {
+        try {
+            Student updatedStudent = studentService.updateStudent(studentId, studentRequest);
+            return ResponseEntity.ok(updatedStudent);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error while updating student: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Deletes a student by ID.
+     */
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteStudent(@PathVariable("id") String studentId) {
+        try {
+            studentService.deleteStudent(studentId);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error while deleting student: " + e.getMessage());
+        }
     }
 }

@@ -47,7 +47,39 @@ public class AdminService {
         return jdbcTemplate.queryForObject(sql, String.class);
     }
 
+    /**
+     * Update an Admin by ID.
+     */
+    public Admin updateAdmin(String id, Admin adminRequest) {
+        Admin admin = adminRepository.findById(id).orElseThrow(() -> new RuntimeException("Admin not found"));
+        admin.setUserName(adminRequest.getUserName());
+        admin.setPassword(adminRequest.getPassword());
+        admin.setEmail(adminRequest.getEmail());
+        admin.setLoginAttempt(adminRequest.getLoginAttempt());
+        admin.setStatus(adminRequest.getStatus());
+        return adminRepository.save(admin);
+    }
+
+    /**
+     * Delete an Admin by ID.
+     */
+    public boolean deleteAdmin(String id) {
+        Optional<Admin> adminOpt = adminRepository.findById(id);
+        if (adminOpt.isEmpty()) {
+            return false;
+        }
+        adminRepository.deleteById(id);
+        return true;
+    }
+
+    /**
+     * Toggle Admin status by ID.
+     */
+    public Admin toggleAdminStatus(String id, String status) {
+        Admin admin = adminRepository.findById(id).orElseThrow(() -> new RuntimeException("Admin not found"));
+        admin.setStatus(status);
+        return adminRepository.save(admin);
+    }
+
     // other admin methods...
 }
-
-

@@ -12,33 +12,52 @@ import org.springframework.stereotype.Service;
 public class LecturerService {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @Autowired
     private LecturerRepository lecturerRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     /**
-     * Creates a new Lecturer with an auto-generated "L###" ID.
+     * Creates a new Lecturer with an auto-generated ID.
      */
     public Lecturer createLecturer(Lecturer lecturerRequest, Admin admin) {
-        // 1) find the max ID in 'lecturer' table
-        String maxId = findMaxLecturerId(); // "L010" or null
-
-        // 2) generate next ID => "L011"
-        String newId = CustomIdGenerator.getNextLecturerId(maxId);
+        String maxId = findMaxLecturerId(); // e.g., "L010" or null
+        String newId = CustomIdGenerator.getNextLecturerId(maxId); // e.g., "L011"
         lecturerRequest.setId(newId);
-
-        // 3) Associate with the Admin object if needed
         lecturerRequest.setAdmin(admin);
-        // 4) Save
         return lecturerRepository.save(lecturerRequest);
     }
 
-    /** SELECT MAX(id) FROM lecturer WHERE id LIKE 'L%' */
+    /**
+     * Updates an existing Lecturer.
+     */
+    public Lecturer updateLecturer(String lecturerId, Lecturer lecturerRequest) {
+        Lecturer existingLecturer = lecturerRepository.findById(lecturerId)
+                .orElseThrow(() -> new RuntimeException("Lecturer not found with ID: " + lecturerId));
+        existingLecturer.setName(lecturerRequest.getName());
+        existingLecturer.setPassword(lecturerRequest.getPassword());
+        existingLecturer.setEmail(lecturerRequest.getEmail());
+        existingLecturer.setDepartment(lecturerRequest.getDepartment());
+        existingLecturer.setContact(lecturerRequest.getContact());
+        existingLecturer.setCourseAssign(lecturerRequest.getCourseAssign());
+        return lecturerRepository.save(existingLecturer);
+    }
+
+
+    /**
+     * Deletes a Lecturer by ID.
+     */
+    public void deleteLecturer(String lecturerId) {
+        Lecturer existingLecturer = lecturerRepository.findById(lecturerId)
+                .orElseThrow(() -> new RuntimeException("Lecturer not found with ID: " + lecturerId));
+        lecturerRepository.delete(existingLecturer);
+    }
+
+    /**
+     * Finds the max Lecturer ID.
+     */
     private String findMaxLecturerId() {
         String sql = "SELECT MAX(id) FROM lecturer WHERE id LIKE 'L%'";
         return jdbcTemplate.queryForObject(sql, String.class);
     }
 }
-
-
