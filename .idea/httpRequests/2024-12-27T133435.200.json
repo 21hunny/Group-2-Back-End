@@ -1,0 +1,16 @@
+{
+  "id": "gadse262f",
+  "name": "GADSE262F",
+  "startDate": "2024-09-06",
+  "department": "ssa",
+  "course": "asas",
+  "admin": {
+    "id": "A002",
+    "userName": "marvel",
+    "password": "2003",
+    "email": "lasinduthemiya96@gmail.com",
+    "loginAttempt": 0,
+    "status": "ACTIVE",
+    "version": null
+  }
+}

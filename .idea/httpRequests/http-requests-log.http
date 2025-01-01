@@ -1,0 +1,812 @@
+POST http://localhost:8081/api/auth/admin/login
+Content-Type: application/json
+Content-Length: 49
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userId": "itzmarvel",
+  "password": "2003"
+}
+
+<> 2025-01-01T152626.200.json
+
+###
+
+DELETE http://localhost:8081/api/lecturer/delete/L005
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+<> 2024-12-27T213458.200.txt
+
+###
+
+DELETE http://localhost:8081/api/lecturer/delete/L006
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+<> 2024-12-27T213449.200.txt
+
+###
+
+DELETE http://localhost:8081/api/lecturer/delete/L007
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+<> 2024-12-27T213440.200.txt
+
+###
+
+DELETE http://localhost:8081/api/lecturer/delete/L008
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+<> 2024-12-27T213428.200.txt
+
+###
+
+DELETE http://localhost:8081/api/lecturer/delete/L009
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+<> 2024-12-27T213415.200.txt
+
+###
+
+DELETE http://localhost:8081/api/student/delete/gadse261f-004
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+###
+
+DELETE http://localhost:8081/api/student/delete/gadse261f-005
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+###
+
+POST http://localhost:8081/api/logout/student
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+<> 2024-12-27T205514.200.txt
+
+###
+
+POST http://localhost:8081/api/logout/lecturer
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+<> 2024-12-27T205511.200.txt
+
+###
+
+POST http://localhost:8081/api/logout/lecturer
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+<> 2024-12-27T205500.200.txt
+
+###
+
+POST http://localhost:8081/api/logout/admin
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+<> 2024-12-27T205451.200.txt
+
+###
+
+PUT http://localhost:8081/api/student/update/gadse261f-005
+Content-Type: application/json
+Content-Length: 194
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "password": "2003",
+  "regDate": "2003-09-09",
+  "year": 5,
+  "contact": "0701804683",
+  "email": "lasinduthemiya96@gmail.com",
+  "name": "Lasindu Themiya",
+  "photo": "",
+  "role": "TEAM"
+}
+
+<> 2024-12-27T205135.200.json
+
+###
+
+PUT http://localhost:8081/api/student/update/gadse261f-005
+Content-Type: application/json
+Content-Length: 194
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "password": "2003",
+  "regDate": "2003-09-09",
+  "year": 5,
+  "contact": "0701804683",
+  "email": "lasinduthemiya96@gmail.com",
+  "name": "Lasindu Themiya",
+  "photo": "",
+  "role": "TEAM"
+}
+
+<> 2024-12-27T204625.404.txt
+
+###
+
+PUT http://localhost:8081/api/lecturer/update/L001
+Content-Type: application/json
+Content-Length: 152
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "password": "2003",
+  "name": "Lasindu",
+  "email": "lasindu96@gmail.com",
+  "department": "SE",
+  "contact": "0701804683",
+  "courseAssign": "SE"
+}
+
+<> 2024-12-27T203936.200.json
+
+###
+
+PUT http://localhost:8081/api/lecturer/update/L001
+Content-Type: application/json
+Content-Length: 152
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "password": "2003",
+  "name": "Lasindu",
+  "email": "lasindu96@gmail.com",
+  "department": "SE",
+  "contact": "0701804683",
+  "courseAssign": "SE"
+}
+
+<> 2024-12-27T203542.500.json
+
+###
+
+PUT http://localhost:8081/api/lecturer/update/L001
+Content-Type: application/json
+Content-Length: 152
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "password": "2003",
+  "name": "Lasindu",
+  "email": "lasindu96@gmail.com",
+  "department": "SE",
+  "contact": "0701804683",
+  "courseAssign": "SE"
+}
+
+<> 2024-12-27T203317.500.json
+
+###
+
+DELETE http://localhost:8081/api/batch/delete/gadse263f
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+content-length: 0
+
+<> 2024-12-27T202444.200.txt
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A002
+Content-Type: application/json
+Content-Length: 24
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "status": "ACTIVE"
+}
+
+<> 2024-12-27T201324.200.json
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A002
+Content-Type: application/json
+Content-Length: 25
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "status": "BLOCKED"
+}
+
+<> 2024-12-27T201314.200.json
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A002
+Content-Type: application/json
+Content-Length: 24
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "status": "ACTIVE"
+}
+
+<> 2024-12-27T201235.200.json
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A002
+Content-Type: application/json
+Content-Length: 25
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "status": "BLOCKED"
+}
+
+<> 2024-12-27T201220.200.json
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A002
+Content-Type: application/json
+Content-Length: 25
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "status": "BLOCKED"
+}
+
+<> 2024-12-27T201057.400.txt
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A002
+Content-Type: application/json
+Content-Length: 24
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "status": "ACTIVE"
+}
+
+<> 2024-12-27T201049.400.txt
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A002
+Content-Type: application/json
+Content-Length: 24
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "status": "ACTIVE"
+}
+
+<> 2024-12-27T201013.400.txt
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A002
+Content-Type: application/json
+Content-Length: 24
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "status": "ACTIVE"
+}
+
+<> 2024-12-27T200922.400.txt
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A002
+Content-Type: application/json
+Content-Length: 20
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{"status": "ACTIVE"}
+
+<> 2024-12-27T200910.400.txt
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A002
+Content-Type: application/json
+Content-Length: 8
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+"ACTIVE"
+
+<> 2024-12-27T200855.400.txt
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A002
+Content-Type: application/json
+Content-Length: 8
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+"ACTIVE"
+
+<> 2024-12-27T200828.400.txt
+
+###
+
+PUT http://localhost:8081/api/admin/update/A002
+Content-Type: application/json
+Content-Length: 136
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userName": "itzmarvel",
+  "password": "2003",
+  "email": "lasinduthemiya96@gmail.com",
+  "loginAttempt": 2,
+  "status": "BLOCKED"
+}
+
+<> 2024-12-27T200758.200.json
+
+###
+
+POST http://localhost:8081/api/auth/lecturer/login
+Content-Type: application/json
+Content-Length: 44
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userId": "L001",
+  "password": "2222"
+}
+
+<> 2024-12-27T183241.200.json
+
+###
+
+POST http://localhost:8081/api/auth/admin/login
+Content-Type: application/json
+Content-Length: 47
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userId": "marvel",
+  "password": "20e03"
+}
+
+<> 2024-12-27T183205.401.json
+
+###
+
+POST http://localhost:8081/api/auth/admin/login
+Content-Type: application/json
+Content-Length: 47
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userId": "marvel",
+  "password": "20e03"
+}
+
+<> 2024-12-27T182829.500.json
+
+###
+
+POST http://localhost:8081/api/auth/admin/login
+Content-Type: application/json
+Content-Length: 47
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userId": "marvel",
+  "password": "20e03"
+}
+
+<> 2024-12-27T182821.500.json
+
+###
+
+POST http://localhost:8081/api/auth/admin/login
+Content-Type: application/json
+Content-Length: 47
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userId": "marvel",
+  "password": "20e03"
+}
+
+<> 2024-12-27T182817.500.json
+
+###
+
+POST http://localhost:8081/api/auth/admin/login
+Content-Type: application/json
+Content-Length: 47
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userId": "marvel",
+  "password": "20e03"
+}
+
+<> 2024-12-27T182813.500.json
+
+###
+
+POST http://localhost:8081/api/auth/admin/login
+Content-Type: application/json
+Content-Length: 47
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userId": "marvel",
+  "password": "20e03"
+}
+
+<> 2024-12-27T182810.500.json
+
+###
+
+POST http://localhost:8081/api/auth/admin/login
+Content-Type: application/json
+Content-Length: 47
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userId": "marvel",
+  "password": "20e03"
+}
+
+<> 2024-12-27T182805.500.json
+
+###
+
+POST http://localhost:8081/api/auth/student/login
+Content-Type: application/json
+Content-Length: 53
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userId": "gadse263f-001",
+  "password": "2003"
+}
+
+<> 2024-12-27T182258.200.json
+
+###
+
+POST http://localhost:8081/api/student/add/gadse263f
+Content-Type: application/json
+Content-Length: 143
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "password": "2003",
+  "year": 3,
+  "contact": "89234412",
+  "email": "lasinduhdba@lkj.jf",
+  "name": "kkmsd",
+  "photo": "",
+  "role": ""
+}
+
+<> 2024-12-27T182208.200.json
+
+###
+
+POST http://localhost:8081/api/batch/add
+Content-Type: application/json
+Content-Length: 118
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "id": "gadse263f",
+  "name": "GADSE263F",
+  "startDate": "2024-09-09",
+  "department": "ads",
+  "course": "asda"
+}
+
+<> 2024-12-27T182010.200.json
+
+###
+
+POST http://localhost:8081/api/lecturer/add
+Content-Type: application/json
+Content-Length: 139
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "password": "1111",
+  "name": "sdf",
+  "email": "sdf@df.ghj",
+  "department": "asd",
+  "contact": "1212312",
+  "courseAssign": "dfsf"
+}
+
+<> 2024-12-27T181924.200.json
+
+###
+
+POST http://localhost:8081/api/admin/add
+Content-Type: application/json
+Content-Length: 99
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userName": "asdfg",
+  "password": "1111",
+  "email": "lksadjm@kjnf.vkf",
+  "loginAttempt": 0
+}
+
+<> 2024-12-27T181821.200.json
+
+###
+
+POST http://localhost:8081/api/admin/add
+Content-Type: application/json
+Content-Length: 100
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
+
+{
+  "userName": "asdfg",
+  "password": "1111",
+  "email": "lksadjm@kjnf.vkf",
+  "loginAttempt": 0,
+}
+
+<> 2024-12-27T181754.500.json
+
+###
+
+POST http://localhost:8081/api/auth/admin/login
+Content-Type: application/json
+Content-Length: 46
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
+
+{
+  "userId": "marvel",
+  "password": "2003"
+}
+
+<> 2024-12-27T181726.200.json
+
+###
+
+POST http://localhost:8081/api/admin/add
+Content-Type: application/json
+Content-Length: 92
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
+
+{
+  "userName": "ddd",
+  "password": "1111",
+  "email": "sdf@desa.vo",
+  "loginAttempt": 0
+}
+
+<> 2024-12-27T134001.200.json
+
+###
+
+POST http://localhost:8081/api/admin/add
+Content-Type: application/json
+Content-Length: 92
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
+
+{
+  "userName": "esf",
+  "password": "1111",
+  "email": "sdf@desa.vo",
+  "loginAttempt": 0
+}
+
+<> 2024-12-27T133936.500.txt
+
+###
+
+POST http://localhost:8081/api/admin/add
+Content-Type: application/json
+Content-Length: 84
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
+
+{
+  "userName": "esf",
+  "password": "1111",
+  "email": "sdf",
+  "loginAttempt": 0
+}
+
+<> 2024-12-27T133727.500.json
+
+###
+
+POST http://localhost:8081/api/admin/add
+Content-Type: application/json
+Content-Length: 84
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
+
+{
+  "userName": "esf",
+  "password": "1111",
+  "email": "sdf",
+  "loginAttempt": 0
+}
+
+<> 2024-12-27T133553.500.json
+
+###
+
+POST http://localhost:8081/api/batch/add
+Content-Type: application/json
+Content-Length: 119
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
+
+{
+  "id": "gadse262f",
+  "name": "GADSE262F",
+  "startDate": "2024-09-06",
+  "department": "ssa",
+  "course": "asas"
+
+}
+
+<> 2024-12-27T133435.200.json
+
+###
+

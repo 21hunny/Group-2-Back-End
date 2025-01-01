@@ -1,0 +1,1 @@
+Error: PreparedStatementCallback; bad SQL grammar [SELECT COUNT(*) FROM batch_null WHERE id = ?]
