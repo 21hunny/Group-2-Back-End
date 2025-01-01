@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/batch")
 public class BatchController {
@@ -51,6 +53,16 @@ public class BatchController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(batch);
+    }
+
+    @GetMapping("getAll")
+    public ResponseEntity<?> getAllBatches() {
+        try {
+            List<Batch> batchIds = batchService.getAllBatches();
+            return ResponseEntity.ok(batchIds);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error fetching batches: " + e.getMessage());
+        }
     }
 
     /**
