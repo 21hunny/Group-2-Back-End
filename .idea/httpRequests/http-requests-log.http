@@ -1,3 +1,89 @@
+PUT http://localhost:8081/api/admin/toggleStatus/A007
+Content-Type: application/json
+Content-Length: 25
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=0430179D0B2D99E18CD2F6B736A49B64
+
+{
+  "status": "BLOCKED"
+}
+
+<> 2025-01-01T160719.200.json
+
+###
+
+PUT http://localhost:8081/api/admin/toggleStatus/A007
+Content-Type: application/json
+Content-Length: 9
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=0430179D0B2D99E18CD2F6B736A49B64
+
+"BLOCKED"
+
+<> 2025-01-01T160557.500.json
+
+###
+
+GET http://localhost:8081/api/admin/get/A007
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=0430179D0B2D99E18CD2F6B736A49B64
+
+<> 2025-01-01T160530.200.json
+
+###
+
+DELETE http://localhost:8081/api/admin/delete/A008
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=0430179D0B2D99E18CD2F6B736A49B64
+content-length: 0
+
+<> 2025-01-01T160512.200.txt
+
+###
+
+POST http://localhost:8081/api/admin/add
+Content-Type: application/json
+Content-Length: 83
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=0430179D0B2D99E18CD2F6B736A49B64
+
+{
+  "userName": "lasindu",
+  "password": "1234",
+  "email": "lasindu96@gmail.com"
+}
+
+<> 2025-01-01T160247.200.json
+
+###
+
+POST http://localhost:8081/api/auth/admin/login
+Content-Type: application/json
+Content-Length: 49
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=73C7D20FCFBCCC6B8A2558E27BAF6854
+
+{
+  "userId": "itzmarvel",
+  "password": "2003"
+}
+
+<> 2025-01-01T160222.200.json
+
+###
+
 POST http://localhost:8081/api/auth/admin/login
 Content-Type: application/json
 Content-Length: 49
@@ -693,120 +779,6 @@ Cookie: JSESSIONID=B1E7913C23618FBD6BBA6F9BE75B5C3E
 }
 
 <> 2024-12-27T181754.500.json
-
-###
-
-POST http://localhost:8081/api/auth/admin/login
-Content-Type: application/json
-Content-Length: 46
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
-
-{
-  "userId": "marvel",
-  "password": "2003"
-}
-
-<> 2024-12-27T181726.200.json
-
-###
-
-POST http://localhost:8081/api/admin/add
-Content-Type: application/json
-Content-Length: 92
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
-
-{
-  "userName": "ddd",
-  "password": "1111",
-  "email": "sdf@desa.vo",
-  "loginAttempt": 0
-}
-
-<> 2024-12-27T134001.200.json
-
-###
-
-POST http://localhost:8081/api/admin/add
-Content-Type: application/json
-Content-Length: 92
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
-
-{
-  "userName": "esf",
-  "password": "1111",
-  "email": "sdf@desa.vo",
-  "loginAttempt": 0
-}
-
-<> 2024-12-27T133936.500.txt
-
-###
-
-POST http://localhost:8081/api/admin/add
-Content-Type: application/json
-Content-Length: 84
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
-
-{
-  "userName": "esf",
-  "password": "1111",
-  "email": "sdf",
-  "loginAttempt": 0
-}
-
-<> 2024-12-27T133727.500.json
-
-###
-
-POST http://localhost:8081/api/admin/add
-Content-Type: application/json
-Content-Length: 84
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
-
-{
-  "userName": "esf",
-  "password": "1111",
-  "email": "sdf",
-  "loginAttempt": 0
-}
-
-<> 2024-12-27T133553.500.json
-
-###
-
-POST http://localhost:8081/api/batch/add
-Content-Type: application/json
-Content-Length: 119
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-Cookie: JSESSIONID=7CD5B521B95BC486E3F2D8B0620D46D5
-
-{
-  "id": "gadse262f",
-  "name": "GADSE262F",
-  "startDate": "2024-09-06",
-  "department": "ssa",
-  "course": "asas"
-
-}
-
-<> 2024-12-27T133435.200.json
 
 ###
 
