@@ -1,16 +1,22 @@
 package com.example.acccreation.controller;
 
+import com.example.acccreation.dto.PasswordUpdateRequest;
+import com.example.acccreation.dto.ProgressUpdateResponse;
 import com.example.acccreation.entity.Admin;
 import com.example.acccreation.entity.Batch;
 import com.example.acccreation.entity.Student;
 import com.example.acccreation.service.AdminService;
 import com.example.acccreation.service.BatchService;
+import com.example.acccreation.service.OrganizingTeamService;
 import com.example.acccreation.service.StudentService;
+import com.example.acccreation.dto.StudentProfileUpdateRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -26,6 +32,8 @@ public class StudentController {
     @Autowired
     private AdminService adminService;
 
+    @Autowired
+    private OrganizingTeamService organizingTeamService;
     /**
      * Creates a new student in the dynamic table batch_<batchId>.
      */
@@ -87,4 +95,100 @@ public class StudentController {
             return ResponseEntity.status(500).body("Error while deleting student: " + e.getMessage());
         }
     }
+
+    /**
+     * Update the logged-in student's profile.
+     */
+    /**
+     * Updates the logged-in student's profile.
+     */
+    @PutMapping("/profile/update")
+    public ResponseEntity<?> updateProfile(
+            @RequestBody StudentProfileUpdateRequest profileRequest,
+            HttpSession session) {
+        String studentId = (String) session.getAttribute("userSId");
+        String batchId = (String) session.getAttribute("batchId");
+        if (studentId == null || batchId == null) {
+            return ResponseEntity.status(401).body("Student is not logged in.");
+        }
+
+        try {
+            Student updatedStudent = studentService.updateProfile(studentId, batchId, profileRequest);
+            return ResponseEntity.ok(updatedStudent);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * Update the logged-in student's password.
+     */
+    @PutMapping("/profile/password/update")
+    public ResponseEntity<?> updatePassword(
+            HttpSession session,
+            @RequestBody PasswordUpdateRequest passwordUpdateRequest) {
+        String studentId = (String) session.getAttribute("userSId");
+        String batchId = (String) session.getAttribute("batchId");
+
+        if (studentId == null || batchId == null) {
+            return ResponseEntity.status(401).body("Student is not logged in.");
+        }
+
+        try {
+            studentService.updatePassword(
+                    studentId,
+                    batchId,
+                    passwordUpdateRequest.getCurrentPassword(),
+                    passwordUpdateRequest.getNewPassword()
+            );
+            return ResponseEntity.ok("Password updated successfully.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/view-progress")
+    public ResponseEntity<?> viewProgressUpdates(HttpSession session) {
+        String batchId = (String) session.getAttribute("batchId");
+
+        if (batchId == null) {
+            return ResponseEntity.status(401).body("Student is not logged in.");
+        }
+
+        try {
+            List<ProgressUpdateResponse> updates = organizingTeamService.getProgressUpdatesByBatch(batchId);
+            return ResponseEntity.ok(updates);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * Get details of a specific student.
+     */
+    @GetMapping("/get")
+    public ResponseEntity<?> getStudent(HttpSession session) {
+        try {
+            String studentId = (String) session.getAttribute("userSId");
+            Student student = studentService.getStudent(studentId);
+            return ResponseEntity.ok(student);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body("Error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Get all students in a specific batch.
+     */
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getAllStudents(HttpSession session) {
+        try {
+            String batchId = (String) session.getAttribute("batchId");
+            List<Student> students = studentService.getAllStudents(batchId);
+            return ResponseEntity.ok(students);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
 }
