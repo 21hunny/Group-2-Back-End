@@ -27,10 +27,7 @@ public class StudentRepository {
                 student.getPhoto(),
                 student.getRole(),
                 student.getAdminId(),
-                student.getBatchId()
-        );
+                student.getBatchId());
         return student;
     }
-
-    // other custom queries
 }

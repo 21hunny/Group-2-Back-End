@@ -1,5 +1,6 @@
 package com.example.acccreation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,5 +36,6 @@ public class Lecturer {
     // Many lecturers can be created by one Admin
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "a_id", nullable = false)
+    @JsonIgnore
     private Admin admin;  // References the Admin who created this Lecturer
 }

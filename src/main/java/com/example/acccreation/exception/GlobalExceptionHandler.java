@@ -1,29 +1,38 @@
 package com.example.acccreation.exception;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@RestControllerAdvice
+import java.util.Collections;
+import java.util.Map;
+
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
-    /**
-     * Catches any DataIntegrityViolationException that occurs in any controller
-     * (e.g., duplicate key constraint).
-     */
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<?> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        // Extract the root cause message (or getMostSpecificCause())
-        String rootCause = ex.getMostSpecificCause().getMessage();
+    @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
+    public ResponseEntity<?> handleOptimisticLockingFailure(ObjectOptimisticLockingFailureException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Collections.singletonMap("error", "The resource was modified by another transaction. Please retry."));
+    }
 
-        // Build a user-friendly error message
-        // e.g. "Duplicate entry 'lasinduthemiya96@gmail.com' for key 'admin.UKc0r9atamxvbhjjvy5j8da1kam'"
-        String errorMessage = "A data integrity violation occurred: " + rootCause;
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(Collections.singletonMap("error", ex.getMessage()));
+    }
 
-        // Return a 400 Bad Request (or 409 Conflict) with the error in the response body
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(errorMessage);
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<?> handleRuntimeException(RuntimeException ex) {
+        ex.printStackTrace();
+        return ResponseEntity.status(500).body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleGeneralException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Collections.singletonMap("error", "An unexpected error occurred."));
     }
 }
