@@ -5,11 +5,13 @@ import com.example.acccreation.entity.Batch;
 import com.example.acccreation.entity.Student;
 import com.example.acccreation.repository.StudentRepository;
 import com.example.acccreation.util.CustomIdGenerator;
+import com.example.acccreation.dto.StudentProfileUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class StudentService {
@@ -132,4 +134,98 @@ public class StudentService {
         String sql = "SELECT MAX(id) FROM " + tableName;
         return jdbcTemplate.queryForObject(sql, String.class);
     }
+
+    /**
+     * Updates the student's profile.
+     */
+    public Student updateProfile(String studentId, String batchId, StudentProfileUpdateRequest profileRequest) {
+        Student student = studentRepository.findById(studentId, batchId);
+        if (student == null) {
+            throw new RuntimeException("Student not found.");
+        }
+
+        // Update fields
+        student.setContact(profileRequest.getContact());
+        student.setEmail(profileRequest.getEmail());
+        student.setName(profileRequest.getName());
+        student.setPhoto(profileRequest.getPhoto());
+
+        // Save updated student
+        return studentRepository.update(student, batchId);
+    }
+
+    /**
+     * Update the student's password.
+     */
+    public void updatePassword(String studentId, String batchId, String currentPassword, String newPassword) {
+        Student existingStudent = studentRepository.findById(studentId, batchId);
+        if (existingStudent == null) {
+            throw new RuntimeException("Student not found.");
+        }
+        if (!existingStudent.getPassword().equals(currentPassword)) {
+            throw new RuntimeException("Current password is incorrect.");
+        }
+        // Update password
+        existingStudent.setPassword(newPassword);
+        studentRepository.update(existingStudent, batchId);
+    }
+
+    public Student getStudent(String studentId) {
+        // Extract batchId from studentId
+        String batchId = extractBatchId(studentId);
+        if (batchId == null || batchId.isEmpty()) {
+            throw new RuntimeException("Invalid student ID. Batch ID could not be determined.");
+        }
+
+        String tableName = "batch_" + batchId;
+        String sql = "SELECT * FROM " + tableName + " WHERE id = ?";
+
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+                Student student = new Student();
+                student.setId(rs.getString("id"));
+                student.setPassword(rs.getString("password"));
+                student.setRegDate(rs.getDate("reg_date"));
+                student.setYear(rs.getInt("year"));
+                student.setContact(rs.getString("contact"));
+                student.setEmail(rs.getString("email"));
+                student.setName(rs.getString("name"));
+                student.setPhoto(rs.getString("photo"));
+                student.setRole(rs.getString("role"));
+                student.setAdminId(rs.getString("a_id"));
+                student.setBatchId(rs.getString("b_id"));
+                return student;
+            }, studentId);
+        } catch (Exception e) {
+            throw new RuntimeException("Student not found with ID: " + studentId, e);
+        }
+    }
+
+    public List<Student> getAllStudents(String batchId) {
+        String tableName = "batch_" + batchId;
+        String sql = "SELECT * FROM " + tableName;
+
+        try {
+            return jdbcTemplate.query(sql, (rs, rowNum) -> {
+                Student student = new Student();
+                student.setId(rs.getString("id"));
+                student.setPassword(rs.getString("password"));
+                student.setRegDate(rs.getDate("reg_date"));
+                student.setYear(rs.getInt("year"));
+                student.setContact(rs.getString("contact"));
+                student.setEmail(rs.getString("email"));
+                student.setName(rs.getString("name"));
+                student.setPhoto(rs.getString("photo"));
+                student.setRole(rs.getString("role"));
+                student.setAdminId(rs.getString("a_id"));
+                student.setBatchId(rs.getString("b_id"));
+                return student;
+            });
+        } catch (Exception e) {
+            throw new RuntimeException("Error fetching students for batch: " + batchId, e);
+        }
+    }
+
+
+
 }
