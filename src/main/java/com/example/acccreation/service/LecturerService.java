@@ -7,6 +7,7 @@ import com.example.acccreation.util.CustomIdGenerator;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
@@ -44,6 +45,9 @@ public class LecturerService {
     @Autowired
     private MessageRepository messageRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     /**
      * Creates a new Lecturer with an auto-generated ID.
      */
@@ -51,9 +55,23 @@ public class LecturerService {
         String maxId = findMaxLecturerId();
         String newId = CustomIdGenerator.getNextLecturerId(maxId);
         lecturerRequest.setId(newId);
+        lecturerRequest.setPassword(passwordEncoder.encode(lecturerRequest.getPassword())); // Hash the password
         lecturerRequest.setAdmin(admin);
         return lecturerRepository.save(lecturerRequest);
     }
+
+    /**
+     * Update Lecturer Password.
+     */
+    public Lecturer updateLecturerPassword(String lecturerId, PasswordUpdateRequest passwordUpdateRequest) {
+        Lecturer existingLecturer = getLecturerById(lecturerId);
+        if (!passwordEncoder.matches(passwordUpdateRequest.getCurrentPassword(), existingLecturer.getPassword())) {
+            throw new RuntimeException("Current password is incorrect.");
+        }
+        existingLecturer.setPassword(passwordEncoder.encode(passwordUpdateRequest.getNewPassword())); // Hash the new password
+        return lecturerRepository.save(existingLecturer);
+    }
+
 
     /**
      * Updates an existing Lecturer.
@@ -62,7 +80,7 @@ public class LecturerService {
         Lecturer existingLecturer = lecturerRepository.findById(lecturerId)
                 .orElseThrow(() -> new RuntimeException("Lecturer not found with ID: " + lecturerId));
         existingLecturer.setName(lecturerRequest.getName());
-        existingLecturer.setPassword(lecturerRequest.getPassword());
+        existingLecturer.setPassword(passwordEncoder.encode(lecturerRequest.getPassword()));
         existingLecturer.setEmail(lecturerRequest.getEmail());
         existingLecturer.setDepartment(lecturerRequest.getDepartment());
         existingLecturer.setContact(lecturerRequest.getContact());
@@ -108,17 +126,7 @@ public class LecturerService {
         return lecturerRepository.save(existingLecturer);
     }
 
-    /**
-     * Update Lecturer Password.
-     */
-    public Lecturer updateLecturerPassword(String lecturerId, PasswordUpdateRequest passwordUpdateRequest) {
-        Lecturer existingLecturer = getLecturerById(lecturerId);
-        if (!existingLecturer.getPassword().equals(passwordUpdateRequest.getCurrentPassword())) {
-            throw new RuntimeException("Current password is incorrect.");
-        }
-        existingLecturer.setPassword(passwordUpdateRequest.getNewPassword());
-        return lecturerRepository.save(existingLecturer);
-    }
+
 
     /**
      * Get all batch IDs.
