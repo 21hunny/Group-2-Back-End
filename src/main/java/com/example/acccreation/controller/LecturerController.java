@@ -303,6 +303,21 @@ public class LecturerController {
         }
     }
 
+    /**
+     * GET /api/lecturer/all
+     * Fetch all lecturers.
+     */
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getAllLecturers() {
+        try {
+            List<Lecturer> lecturers = lecturerService.getAllLecturers();
+            return ResponseEntity.ok(lecturers);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error fetching lecturers: " + e.getMessage());
+        }
+    }
+
+
     @PutMapping("/announcement/update/{id}")
     public ResponseEntity<?> updateAnnouncement(@PathVariable String id, @RequestBody AnnouncementRequest announcementRequest, HttpSession session) {
         String lecturerId = (String) session.getAttribute("userLId");

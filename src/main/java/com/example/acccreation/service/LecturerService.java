@@ -497,4 +497,9 @@ public class LecturerService {
                 .collect(Collectors.toList());
     }
 
+    public List<Lecturer> getAllLecturers() {
+        return lecturerRepository.findAll();
+    }
+
+
 }
