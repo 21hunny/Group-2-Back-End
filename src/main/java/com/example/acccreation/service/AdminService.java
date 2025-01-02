@@ -30,6 +30,7 @@ public class AdminService {
         String nextId = CustomIdGenerator.getNextAdminId(maxId);
         admin.setId(nextId);
         admin.setPassword(passwordEncoder.encode(admin.getPassword())); // Hash the password
+        admin.setLoginAttempt(0);
         admin.setStatus("ACTIVE");
 
         System.out.println("[DEBUG] Creating admin with ID: " + nextId);

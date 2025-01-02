@@ -1,6 +1,7 @@
 package com.example.acccreation.service;
 
 import com.example.acccreation.config.JwtTokenUtil;
+import com.example.acccreation.config.SecurityConfig;
 import com.example.acccreation.dto.JwtResponse;
 import com.example.acccreation.dto.LoginRequest;
 import com.example.acccreation.exception.CustomException;
@@ -38,7 +39,9 @@ public class AuthService {
     @Autowired
     private BatchRepository batchRepository;
 
-    // Admin Login
+    @Autowired
+    private SecurityConfig securityConfig;
+
     public JwtResponse loginAdmin(LoginRequest request) {
         if (request == null || request.getUserId() == null || request.getPassword() == null) {
             throw new CustomException("User ID and password are required");
@@ -47,35 +50,24 @@ public class AuthService {
         Admin admin = adminRepo.findByUserName(request.getUserId())
                 .orElseThrow(() -> new CustomException("Admin not found"));
 
-        // Check if the admin is blocked
         if ("BLOCKED".equalsIgnoreCase(admin.getStatus())) {
             throw new CustomException("Your account is blocked due to multiple failed login attempts");
         }
 
-        // Validate password
-        if (!admin.getPassword().equals(request.getPassword())) {
-            // Increment login attempts
+        // Validate hashed password
+        if (!securityConfig.passwordEncoder().matches(request.getPassword(), admin.getPassword())) {
             admin.setLoginAttempt(admin.getLoginAttempt() + 1);
-
-            // Check if attempts reach 3
             if (admin.getLoginAttempt() >= 3) {
                 admin.setStatus("BLOCKED");
             }
-
-            // Save updated admin to the database
             adminRepo.save(admin);
-
             throw new CustomException("Invalid username or password");
         }
 
-        // Successful login - Reset login attempts
         admin.setLoginAttempt(0);
         adminRepo.save(admin);
 
-        // Generate JWT token
         String token = jwtTokenUtil.generateToken(admin.getId());
-
-        // Store session details
         HttpSession session = getSession();
         session.setAttribute("userAId", admin.getId());
         session.setAttribute("role", "ADMIN");
@@ -84,41 +76,41 @@ public class AuthService {
         return new JwtResponse(token, admin.getId(), "ADMIN");
     }
 
-    // Student Login
     public JwtResponse loginStudent(LoginRequest request) {
         if (request == null || request.getUserId() == null || request.getPassword() == null) {
             throw new CustomException("User ID and password are required");
         }
 
         String username = request.getUserId();
-        String password = request.getPassword();
+        String inputPassword = request.getPassword();
 
-        List<Batch> batches = batchRepository.findAll(); // Get all batches
+        List<Batch> batches = batchRepository.findAll();
         if (batches.isEmpty()) {
             throw new CustomException("No batches found");
         }
 
         for (Batch batch : batches) {
-            String tableName = "batch_" + batch.getId(); // Construct the table name dynamically
-
-            String query = "SELECT * FROM " + tableName + " WHERE id = ? AND password = ?";
+            String tableName = "batch_" + batch.getId();
+            String query = "SELECT * FROM " + tableName + " WHERE id = ?";
             try {
-                List<Map<String, Object>> rows = jdbcTemplate.queryForList(query, username, password);
-
+                List<Map<String, Object>> rows = jdbcTemplate.queryForList(query, username);
                 if (!rows.isEmpty()) {
                     Map<String, Object> studentData = rows.get(0);
+                    String storedPassword = (String) studentData.get("password");
 
-                    // Generate JWT token
+                    // Validate hashed password
+                    if (!securityConfig.passwordEncoder().matches(inputPassword, storedPassword)) {
+                        throw new CustomException("Invalid username or password");
+                    }
+
                     String token = jwtTokenUtil.generateToken((String) studentData.get("id"));
-
-                    // Store session details
                     HttpSession session = getSession();
                     session.setAttribute("userSId", studentData.get("id"));
                     session.setAttribute("batchId", batch.getId());
                     session.setAttribute("role", "STUDENT");
                     session.setAttribute("token", token);
 
-                    return new JwtResponse(token, (String) studentData.get("id"), "batchmate");
+                    return new JwtResponse(token, (String) studentData.get("id"), "STUDENT");
                 }
             } catch (Exception e) {
                 System.err.println("Error querying table " + tableName + ": " + e.getMessage());
@@ -128,7 +120,7 @@ public class AuthService {
         throw new CustomException("Invalid username or password");
     }
 
-    // Lecturer Login
+
     public JwtResponse loginLecturer(LoginRequest request) {
         if (request == null || request.getUserId() == null || request.getPassword() == null) {
             throw new CustomException("User ID and password are required");
@@ -137,14 +129,12 @@ public class AuthService {
         Lecturer lecturer = lecturerRepo.findById(request.getUserId())
                 .orElseThrow(() -> new CustomException("Lecturer not found"));
 
-        if (!lecturer.getPassword().equals(request.getPassword())) {
+        // Validate hashed password
+        if (!securityConfig.passwordEncoder().matches(request.getPassword(), lecturer.getPassword())) {
             throw new CustomException("Invalid username or password");
         }
 
-        // Generate JWT token
         String token = jwtTokenUtil.generateToken(lecturer.getId());
-
-        // Store session details
         HttpSession session = getSession();
         session.setAttribute("userLId", lecturer.getId());
         session.setAttribute("role", "LECTURER");
@@ -152,6 +142,7 @@ public class AuthService {
 
         return new JwtResponse(token, lecturer.getId(), "LECTURER");
     }
+
 
     // Utility method to get the current HTTP session
     private HttpSession getSession() {
