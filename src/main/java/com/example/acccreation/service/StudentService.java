@@ -52,6 +52,7 @@ public class StudentService {
         studentRequest.setAdminId(admin.getId());
         studentRequest.setBatchId(batchId);
         studentRequest.setRegDate(new Date());
+        studentRequest.setRole("batchmate");
 
         return studentRepository.save(studentRequest);
     }
