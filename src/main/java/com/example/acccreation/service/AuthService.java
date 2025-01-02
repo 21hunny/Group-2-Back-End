@@ -114,6 +114,7 @@ public class AuthService {
                     // Store session details
                     HttpSession session = getSession();
                     session.setAttribute("userSId", studentData.get("id"));
+                    session.setAttribute("batchId", batch.getId());
                     session.setAttribute("role", "STUDENT");
                     session.setAttribute("token", token);
 
