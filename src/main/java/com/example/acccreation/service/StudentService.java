@@ -8,6 +8,7 @@ import com.example.acccreation.util.CustomIdGenerator;
 import com.example.acccreation.dto.StudentProfileUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,22 +22,42 @@ public class StudentService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    /**
+     * Creates a new Student.
+     */
     public Student createStudent(Student studentRequest, Admin admin, Batch batch) {
         String batchId = batch.getId();
-
         createDynamicBatchTableIfNotExists(batchId);
-
         String maxId = findMaxStudentId(batchId);
         String newId = CustomIdGenerator.getNextStudentId(batchId, maxId);
 
         studentRequest.setId(newId);
+        studentRequest.setPassword(passwordEncoder.encode(studentRequest.getPassword())); // Hash the password
         studentRequest.setAdminId(admin.getId());
         studentRequest.setBatchId(batchId);
         studentRequest.setRegDate(new Date());
 
         return studentRepository.save(studentRequest);
     }
+
+    /**
+     * Update the student's password.
+     */
+    public void updatePassword(String studentId, String batchId, String currentPassword, String newPassword) {
+        Student existingStudent = studentRepository.findById(studentId, batchId);
+        if (existingStudent == null) {
+            throw new RuntimeException("Student not found.");
+        }
+        if (!passwordEncoder.matches(currentPassword, existingStudent.getPassword())) {
+            throw new RuntimeException("Current password is incorrect.");
+        }
+        existingStudent.setPassword(passwordEncoder.encode(newPassword)); // Hash the new password
+        studentRepository.update(existingStudent, batchId);
+    }
+
 
     public Student updateStudent(String studentId, Student studentRequest) {
         // Extract batchId from studentId
@@ -59,7 +80,7 @@ public class StudentService {
         String sqlUpdate = "UPDATE " + tableName + " SET password = ?, reg_date = ?, year = ?, contact = ?, "
                 + "email = ?, name = ?, photo = ?, role = ? WHERE id = ?";
         jdbcTemplate.update(sqlUpdate,
-                studentRequest.getPassword(),
+                passwordEncoder.encode(studentRequest.getPassword()),
                 studentRequest.getRegDate(),
                 studentRequest.getYear(),
                 studentRequest.getContact(),
@@ -154,21 +175,7 @@ public class StudentService {
         return studentRepository.update(student, batchId);
     }
 
-    /**
-     * Update the student's password.
-     */
-    public void updatePassword(String studentId, String batchId, String currentPassword, String newPassword) {
-        Student existingStudent = studentRepository.findById(studentId, batchId);
-        if (existingStudent == null) {
-            throw new RuntimeException("Student not found.");
-        }
-        if (!existingStudent.getPassword().equals(currentPassword)) {
-            throw new RuntimeException("Current password is incorrect.");
-        }
-        // Update password
-        existingStudent.setPassword(newPassword);
-        studentRepository.update(existingStudent, batchId);
-    }
+
 
     public Student getStudent(String studentId) {
         // Extract batchId from studentId

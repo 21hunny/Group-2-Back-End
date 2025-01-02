@@ -5,6 +5,7 @@ import com.example.acccreation.repository.AdminRepository;
 import com.example.acccreation.util.CustomIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,21 +19,37 @@ public class AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     /**
      * Creates a new Admin record with an auto-generated ID like "A001", "A002", etc.
      */
     public Admin createAdmin(Admin admin) {
-        // 1) Find current max admin ID (e.g. "A007" or null if none exist)
         String maxId = findMaxAdminId();
-
-        // 2) Generate next ID
         String nextId = CustomIdGenerator.getNextAdminId(maxId);
         admin.setId(nextId);
+        admin.setPassword(passwordEncoder.encode(admin.getPassword())); // Hash the password
         admin.setStatus("ACTIVE");
 
         System.out.println("[DEBUG] Creating admin with ID: " + nextId);
         return adminRepository.save(admin);
     }
+
+    /**
+     * Update an Admin by ID.
+     */
+    public Admin updateAdmin(String id, Admin adminRequest) {
+        Admin admin = adminRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
+        admin.setUserName(adminRequest.getUserName());
+        admin.setPassword(passwordEncoder.encode(adminRequest.getPassword())); // Hash the password
+        admin.setEmail(adminRequest.getEmail());
+        admin.setLoginAttempt(adminRequest.getLoginAttempt());
+        admin.setStatus(adminRequest.getStatus());
+        return adminRepository.save(admin);
+    }
+
 
     public Optional<Admin> findById(String id) {
         return adminRepository.findById(id);
@@ -47,18 +64,7 @@ public class AdminService {
         return jdbcTemplate.queryForObject(sql, String.class);
     }
 
-    /**
-     * Update an Admin by ID.
-     */
-    public Admin updateAdmin(String id, Admin adminRequest) {
-        Admin admin = adminRepository.findById(id).orElseThrow(() -> new RuntimeException("Admin not found"));
-        admin.setUserName(adminRequest.getUserName());
-        admin.setPassword(adminRequest.getPassword());
-        admin.setEmail(adminRequest.getEmail());
-        admin.setLoginAttempt(adminRequest.getLoginAttempt());
-        admin.setStatus(adminRequest.getStatus());
-        return adminRepository.save(admin);
-    }
+
 
     /**
      * Delete an Admin by ID.
