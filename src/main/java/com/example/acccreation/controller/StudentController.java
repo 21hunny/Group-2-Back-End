@@ -1,5 +1,6 @@
 package com.example.acccreation.controller;
 
+import com.example.acccreation.dto.*;
 import com.example.acccreation.dto.PasswordUpdateRequest;
 import com.example.acccreation.dto.ProgressUpdateResponse;
 import com.example.acccreation.entity.Admin;
@@ -187,6 +188,95 @@ public class StudentController {
             List<Student> students = studentService.getAllStudents(batchId);
             return ResponseEntity.ok(students);
         } catch (RuntimeException e) {
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+    @GetMapping("/announcement/batch")
+    public ResponseEntity<?> viewAnnouncementsByBatch(HttpSession session) {
+        try {
+            String batchId = (String) session.getAttribute("batchId");
+            if (batchId == null) {
+                return ResponseEntity.status(401).body("Student is not logged in or batch not found.");
+            }
+            List<AnnouncementResponse> announcements = studentService.viewAnnouncementsByBatch(batchId);
+            return ResponseEntity.ok(announcements);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/announcement/student")
+    public ResponseEntity<?> viewAnnouncementsByStudent(HttpSession session) {
+        try {
+            String studentId = (String) session.getAttribute("userSId");
+            if (studentId == null) {
+                return ResponseEntity.status(401).body("Student is not logged in.");
+            }
+            List<AnnouncementResponse> announcements = studentService.viewAnnouncementsByStudent(studentId);
+            return ResponseEntity.ok(announcements);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/workshop/batch")
+    public ResponseEntity<?> viewWorkshopsByBatch(HttpSession session) {
+        try {
+            String batchId = (String) session.getAttribute("batchId");
+            if (batchId == null) {
+                return ResponseEntity.status(401).body("Student is not logged in or batch not found.");
+            }
+            List<WorkshopResponse> workshops = studentService.viewWorkshopsByBatch(batchId);
+            return ResponseEntity.ok(workshops);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/workshop/student")
+    public ResponseEntity<?> viewWorkshopsByStudent(HttpSession session) {
+        try {
+            String studentId = (String) session.getAttribute("userSId");
+            if (studentId == null) {
+                return ResponseEntity.status(401).body("Student is not logged in.");
+            }
+            List<WorkshopResponse> workshops = studentService.viewWorkshopsByStudent(studentId);
+            return ResponseEntity.ok(workshops);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/interview/batch")
+    public ResponseEntity<?> viewInterviewsByBatch(HttpSession session) {
+        try {
+            String batchId = (String) session.getAttribute("batchId");
+            if (batchId == null) {
+                return ResponseEntity.status(401).body("Student is not logged in or batch not found.");
+            }
+            List<InterviewResponse> interviews = studentService.viewInterviewsByBatch(batchId);
+            return ResponseEntity.ok(interviews);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/interview/student")
+    public ResponseEntity<?> viewInterviewsByStudent(HttpSession session) {
+        try {
+            String studentId = (String) session.getAttribute("userSId");
+            if (studentId == null) {
+                return ResponseEntity.status(401).body("Student is not logged in.");
+            }
+            List<InterviewResponse> interviews = studentService.viewInterviewsByStudent(studentId);
+            return ResponseEntity.ok(interviews);
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }

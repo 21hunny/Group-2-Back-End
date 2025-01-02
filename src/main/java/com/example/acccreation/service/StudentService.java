@@ -1,9 +1,10 @@
 package com.example.acccreation.service;
 
-import com.example.acccreation.entity.Admin;
-import com.example.acccreation.entity.Batch;
-import com.example.acccreation.entity.Student;
-import com.example.acccreation.repository.StudentRepository;
+import com.example.acccreation.dto.AnnouncementResponse;
+import com.example.acccreation.dto.InterviewResponse;
+import com.example.acccreation.dto.WorkshopResponse;
+import com.example.acccreation.entity.*;
+import com.example.acccreation.repository.*;
 import com.example.acccreation.util.CustomIdGenerator;
 import com.example.acccreation.dto.StudentProfileUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,18 @@ public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
+
+    @Autowired
+    private AnnouncementRepository announcementRepository;
+
+    @Autowired
+    private WorkshopRepository workshopRepository;
+
+    @Autowired
+    private InterviewRepository interviewRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -224,6 +237,129 @@ public class StudentService {
         } catch (Exception e) {
             throw new RuntimeException("Error fetching students for batch: " + batchId, e);
         }
+    }
+
+
+    public List<AnnouncementResponse> viewAnnouncementsByBatch(String batchId) {
+        List<Event> events = eventRepository.findByLIdAndName(null, "Announcement")
+                .stream()
+                .filter(event -> batchId.equals(event.getBId()))
+                .toList();
+        return events.stream().map(event -> {
+            Announcement announcement = announcementRepository.findByEId(event.getId());
+            return new AnnouncementResponse(
+                    event.getName(),
+                    announcement.getType(),
+                    announcement.getContent(),
+                    event.getDate(),
+                    event.getTime(),
+                    event.getStatus(),
+                    event.getSId(),
+                    event.getBId()
+            );
+        }).toList();
+    }
+
+    public List<AnnouncementResponse> viewAnnouncementsByStudent(String studentId) {
+        List<Event> events = eventRepository.findByLIdAndName(null, "Announcement")
+                .stream()
+                .filter(event -> studentId.equals(event.getSId()))
+                .toList();
+        return events.stream().map(event -> {
+            Announcement announcement = announcementRepository.findByEId(event.getId());
+            return new AnnouncementResponse(
+                    event.getName(),
+                    announcement.getType(),
+                    announcement.getContent(),
+                    event.getDate(),
+                    event.getTime(),
+                    event.getStatus(),
+                    event.getSId(),
+                    event.getBId()
+            );
+        }).toList();
+    }
+
+    public List<WorkshopResponse> viewWorkshopsByBatch(String batchId) {
+        List<Event> events = eventRepository.findByLIdAndName(null, "Workshop")
+                .stream()
+                .filter(event -> batchId.equals(event.getBId()))
+                .toList();
+        return events.stream().map(event -> {
+            Workshop workshop = workshopRepository.findByEId(event.getId());
+            return new WorkshopResponse(
+                    event.getName(),
+                    workshop.getType(),
+                    workshop.getContact(),
+                    event.getDate(),
+                    event.getTime(),
+                    event.getStatus(),
+                    event.getSId(),
+                    event.getBId()
+            );
+        }).toList();
+    }
+
+    public List<WorkshopResponse> viewWorkshopsByStudent(String studentId) {
+        List<Event> events = eventRepository.findByLIdAndName(null, "Workshop")
+                .stream()
+                .filter(event -> studentId.equals(event.getSId()))
+                .toList();
+        return events.stream().map(event -> {
+            Workshop workshop = workshopRepository.findByEId(event.getId());
+            return new WorkshopResponse(
+                    event.getName(),
+                    workshop.getType(),
+                    workshop.getContact(),
+                    event.getDate(),
+                    event.getTime(),
+                    event.getStatus(),
+                    event.getSId(),
+                    event.getBId()
+            );
+        }).toList();
+    }
+
+    public List<InterviewResponse> viewInterviewsByBatch(String batchId) {
+        List<Event> events = eventRepository.findByLIdAndName(null, "Interview")
+                .stream()
+                .filter(event -> batchId.equals(event.getBId()))
+                .toList();
+        return events.stream().map(event -> {
+            Interview interview = interviewRepository.findByEId(event.getId());
+            return new InterviewResponse(
+                    event.getName(),
+                    interview.getCompanyName(),
+                    interview.getPosition(),
+                    interview.getMode(),
+                    event.getDate(),
+                    event.getTime(),
+                    event.getStatus(),
+                    event.getSId(),
+                    event.getBId()
+            );
+        }).toList();
+    }
+
+    public List<InterviewResponse> viewInterviewsByStudent(String studentId) {
+        List<Event> events = eventRepository.findByLIdAndName(null, "Interview")
+                .stream()
+                .filter(event -> studentId.equals(event.getSId()))
+                .toList();
+        return events.stream().map(event -> {
+            Interview interview = interviewRepository.findByEId(event.getId());
+            return new InterviewResponse(
+                    event.getName(),
+                    interview.getCompanyName(),
+                    interview.getPosition(),
+                    interview.getMode(),
+                    event.getDate(),
+                    event.getTime(),
+                    event.getStatus(),
+                    event.getSId(),
+                    event.getBId()
+            );
+        }).toList();
     }
 
 
