@@ -181,10 +181,9 @@ public class StudentController {
     /**
      * Get all students in a specific batch.
      */
-    @GetMapping("/getAll")
-    public ResponseEntity<?> getAllStudents(HttpSession session) {
+    @GetMapping("/getAll/{batchId}")
+    public ResponseEntity<?> getAllStudents(@PathVariable String batchId) {
         try {
-            String batchId = (String) session.getAttribute("batchId");
             List<Student> students = studentService.getAllStudents(batchId);
             return ResponseEntity.ok(students);
         } catch (RuntimeException e) {
