@@ -6,10 +6,17 @@ import com.example.acccreation.dto.*;
 import com.example.acccreation.util.CustomIdGenerator;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +42,9 @@ public class LecturerService {
 
     @Autowired
     private InterviewRepository interviewRepository;
+
+    @Autowired
+    private DocumentUploadRepository documentUploadRepository;
 
     @Autowired
     private FeedbackRepository feedbackRepository;
@@ -508,6 +518,24 @@ public class LecturerService {
     public List<Lecturer> getAllLecturers() {
         return lecturerRepository.findAll();
     }
+
+
+    public Resource downloadDocument(String documentId, String lecturerId) throws RuntimeException {
+        // Fetch the document
+        DocumentUpload document = documentUploadRepository.findByIdAndLecturerId(documentId, lecturerId)
+                .orElseThrow(() -> new RuntimeException("Document not found or access denied."));
+
+        try {
+            Path filePath = Paths.get(document.getFilePath());
+            if (!Files.exists(filePath)) {
+                throw new RuntimeException("File not found at path: " + document.getFilePath());
+            }
+            return new UrlResource(filePath.toUri());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Error reading file: " + e.getMessage());
+        }
+    }
+
 
 
 }

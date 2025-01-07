@@ -10,11 +10,19 @@ import com.example.acccreation.entity.Announcement;
 import com.example.acccreation.repository.AdminRepository;
 import com.example.acccreation.service.LecturerService;
 import com.example.acccreation.service.OrganizingTeamService;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -435,5 +443,42 @@ public class LecturerController {
             return ResponseEntity.ok(e.getMessage());
         }
     }
+
+    @GetMapping("/download-document/{documentId}")
+    public ResponseEntity<?> downloadDocument(
+            @PathVariable String documentId,
+            HttpSession session) {
+        try {
+            // Get lecturerId from session
+            String lecturerId = (String) session.getAttribute("lecturerId");
+            if (lecturerId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access.");
+            }
+
+            // Fetch the resource
+            Resource file = (Resource) lecturerService.downloadDocument(documentId, lecturerId);
+
+            // Extract file name
+            String fileName = Paths.get(((org.springframework.core.io.Resource) file).getURI()).getFileName().toString();
+
+            // Determine content type
+            String contentType = "application/octet-stream"; // Default binary type
+            try {
+                contentType = Files.probeContentType(Paths.get(((org.springframework.core.io.Resource) file).getURI()));
+            } catch (IOException e) {
+                // Log the error and fallback to default content type
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                    .body(file);
+        } catch (RuntimeException | IOException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+
 
 }

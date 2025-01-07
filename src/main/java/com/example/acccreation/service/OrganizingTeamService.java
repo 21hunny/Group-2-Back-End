@@ -66,7 +66,7 @@ public class OrganizingTeamService {
         String documentId = CustomIdGenerator.getNextDocumentUploadId(maxId);
 
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        String filePath = "E:\\NIBM\\HDSE\\EAD2\\CW\\CW\\uploads/" + fileName;
+        String filePath = "../uploads/" + fileName;
 
         try {
             file.transferTo(new File(filePath));
