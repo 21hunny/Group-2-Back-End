@@ -1,11 +1,15 @@
 package com.example.acccreation.controller;
 
+import com.example.acccreation.dto.FeedbackDTO;
 import com.example.acccreation.dto.FeedbackRequest;
 import com.example.acccreation.dto.FeedbackResponse;
+import com.example.acccreation.entity.Feedback;
 import com.example.acccreation.service.FeedbackService;
 import com.example.acccreation.service.LecturerService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,6 +77,22 @@ public class FeedbackController {
             return ResponseEntity.ok(feedback);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getFeedbackById(@PathVariable String id,HttpSession session) {
+        String lecturerId = (String) session.getAttribute("userLId");
+        if (lecturerId == null) {
+            return ResponseEntity.status(401).body("Lecturer is not logged in.");
+        }
+        try {
+            FeedbackDTO feedbackDTO = feedbackService.getFeedbackById(id);
+            return ResponseEntity.ok(feedbackDTO);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Feedback not found with ID: " + id);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while fetching feedback.");
         }
     }
 

@@ -67,6 +67,25 @@ public class WorkshopResponse {
         this.batchId = batchId;
     }
 
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    private String eventId;
+
+    public String getwId() {
+        return wId;
+    }
+
+    public void setwId(String wId) {
+        this.wId = wId;
+    }
+
+    private String wId;
     private String name;
     private String type;
     private String contact;
@@ -76,7 +95,9 @@ public class WorkshopResponse {
     private String studentId;
     private String batchId;
 
-    public WorkshopResponse(String name, String type, String contact, Date date, Time time, String status, String studentId, String batchId) {
+    public WorkshopResponse(String eventId,String wId,String name, String type, String contact, Date date, Time time, String status, String studentId, String batchId) {
+        this.eventId = eventId;
+        this.wId = wId;
         this.name = name;
         this.type = type;
         this.contact = contact;

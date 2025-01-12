@@ -75,6 +75,25 @@ public class InterviewResponse {
         this.batchId = batchId;
     }
 
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    private String eventId;
+
+    public String getiId() {
+        return iId;
+    }
+
+    public void setiId(String iId) {
+        this.iId = iId;
+    }
+
+    private String iId;
     private String name;
     private String companyName;
     private String position;
@@ -85,7 +104,9 @@ public class InterviewResponse {
     private String studentId;
     private String batchId;
 
-    public InterviewResponse(String name, String companyName, String position, String mode, Date date, Time time, String status, String studentId, String batchId) {
+    public InterviewResponse(String eventId,String iId,String name, String companyName, String position, String mode, Date date, Time time, String status, String studentId, String batchId) {
+        this.eventId = eventId;
+        this.iId = iId;
         this.name = name;
         this.companyName = companyName;
         this.position = position;

@@ -1,8 +1,10 @@
 package com.example.acccreation.service;
 
+import com.example.acccreation.dto.FeedbackDTO;
 import com.example.acccreation.dto.FeedbackResponse;
 import com.example.acccreation.entity.Feedback;
 import com.example.acccreation.repository.FeedbackRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,4 +46,23 @@ public class FeedbackService {
         response.setDate(feedback.getDate());
         return response;
     }
+
+    public FeedbackDTO getFeedbackById(String id) {
+        Feedback feedback = feedbackRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Feedback not found for ID: " + id));
+
+        FeedbackDTO dto = new FeedbackDTO();
+        dto.setfId(feedback.getFId());
+        dto.setContent(feedback.getContent());
+        dto.setPoints(feedback.getPoints());
+        dto.setDate(feedback.getDate());
+        dto.setBatchId(feedback.getBatchId());
+        dto.setStudentId(feedback.getStudentId());
+        dto.setLecturerId(feedback.getLecturer() != null ? feedback.getLecturer().getId() : null);
+
+        return dto;
+    }
+
+
+
 }

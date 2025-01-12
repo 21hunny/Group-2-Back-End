@@ -282,6 +282,8 @@ public class LecturerService {
                 .map(event -> {
                     Announcement announcement = announcementRepository.findByEId(event.getId());
                     return new AnnouncementResponse(
+                            event.getId(),
+                            announcement.getaId(),
                             event.getName(),
                             announcement.getType(),
                             announcement.getContent(),
@@ -299,6 +301,8 @@ public class LecturerService {
                 .map(event -> {
                     Workshop workshop = workshopRepository.findByEId(event.getId());
                     return new WorkshopResponse(
+                            event.getId(),
+                            workshop.getwId(),
                             event.getName(),
                             workshop.getType(),
                             workshop.getContact(),
@@ -316,6 +320,8 @@ public class LecturerService {
                 .map(event -> {
                     Interview interview = interviewRepository.findByEId(event.getId());
                     return new InterviewResponse(
+                            event.getId(),
+                            interview.getiId(),
                             event.getName(),
                             interview.getCompanyName(),
                             interview.getPosition(),

@@ -69,6 +69,25 @@ public class AnnouncementResponse {
         this.batchId = batchId;
     }
 
+    public String getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
+    }
+
+    private String eventId;
+
+    public String getaId() {
+        return aId;
+    }
+
+    public void setaId(String aId) {
+        this.aId = aId;
+    }
+
+    private String aId;
     private String name;
     private String type;
     private String content;
@@ -78,7 +97,9 @@ public class AnnouncementResponse {
     private String studentId;
     private String batchId;
 
-    public AnnouncementResponse(String name, String type, String content, Date date, Time time, String status, String studentId, String batchId) {
+    public AnnouncementResponse(String eventId,String aId,String name, String type, String content, Date date, Time time, String status, String studentId, String batchId) {
+        this.eventId = eventId;
+        this.aId = aId;
         this.name = name;
         this.type = type;
         this.content = content;

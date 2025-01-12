@@ -1,6 +1,5 @@
 package com.example.acccreation.repository;
 
-import com.example.acccreation.entity.Announcement;
 import com.example.acccreation.entity.Interview;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
