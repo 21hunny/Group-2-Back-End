@@ -58,7 +58,7 @@ public class OrganizingTeamService {
         update.setBatchId(batchId);
         update.setTeamId(teamId);
         update.setContent(content);
-
+        update.setDate(new Date());
         return progressUpdateRepository.save(update);
     }
 
