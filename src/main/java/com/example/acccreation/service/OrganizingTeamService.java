@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -44,7 +45,7 @@ public class OrganizingTeamService {
         message.setReceiverId(receiverId);
         message.setSubject(subject);
         message.setContent(content);
-
+        message.setDate(new Date());
         return messageRepository.save(message);
     }
 
