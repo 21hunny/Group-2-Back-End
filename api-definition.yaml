@@ -1,0 +1,2725 @@
+openapi: 3.0.0
+info:
+  title: "Admin, Student, Batch, Lecturer, Feedback, Portfolio, Team, and Organizing Team Management API"
+  description: "API documentation for managing admins, students, batches, lecturers, feedback, portfolios, teams, and organizing teams."
+  version: 3.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/WITHANACHCHICHULASEN/EAD2/3.0.0
+  description: SwaggerHub API Auto Mocking
+- url: http://localhost:8081/api
+  description: SwaggerHub API Auto Mocking
+paths:
+  /admin/add:
+    post:
+      tags:
+      - Admin
+      summary: Add a new admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Admin created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+        "400":
+          description: Invalid input
+  /admin/delete/{id}:
+    delete:
+      tags:
+      - Admin
+      summary: Delete an admin by ID
+      parameters:
+      - name: id
+        in: path
+        description: ID of the admin to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Admin deleted successfully
+        "404":
+          description: Admin not found
+  /admin/get/{id}:
+    get:
+      tags:
+      - Admin
+      summary: Get admin details by ID
+      parameters:
+      - name: id
+        in: path
+        description: ID of the admin to retrieve
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Admin details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+        "404":
+          description: Admin not found
+  /admin/toggleStatus/{id}:
+    put:
+      tags:
+      - Admin
+      summary: Toggle the status of an admin
+      parameters:
+      - name: id
+        in: path
+        description: ID of the admin to toggle status
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToggleStatusRequest'
+        required: true
+      responses:
+        "200":
+          description: Admin status updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+        "400":
+          description: Invalid status value
+        "404":
+          description: Admin not found
+  /admin/update/{id}:
+    put:
+      tags:
+      - Admin
+      summary: Update admin details
+      parameters:
+      - name: id
+        in: path
+        description: ID of the admin to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: Admin updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Admin'
+        "400":
+          description: Invalid input
+        "404":
+          description: Admin not found
+  /student/add/{batchId}:
+    post:
+      tags:
+      - Student
+      summary: Add a new student to a batch
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to add the student to
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Student created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        "400":
+          description: Invalid input
+        "404":
+          description: Batch not found
+  /student/delete/{id}:
+    delete:
+      tags:
+      - Student
+      summary: Delete a student by ID
+      parameters:
+      - name: id
+        in: path
+        description: ID of the student to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Student deleted successfully
+        "404":
+          description: Student not found
+  /student/profile/password/update:
+    put:
+      tags:
+      - Student
+      summary: Update student's password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePasswordRequest'
+        required: true
+      responses:
+        "200":
+          description: Password updated successfully
+        "400":
+          description: Invalid input or current password incorrect
+        "404":
+          description: Student not found
+  /student/profile/update:
+    put:
+      tags:
+      - Student
+      summary: Update student's profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileRequest'
+        required: true
+      responses:
+        "200":
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        "400":
+          description: Invalid input
+        "404":
+          description: Student not found
+  /student/update/{id}:
+    put:
+      tags:
+      - Student
+      summary: Update student details
+      parameters:
+      - name: id
+        in: path
+        description: ID of the student to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: Student updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        "400":
+          description: Invalid input
+        "404":
+          description: Student not found
+  /student/view-progress:
+    get:
+      tags:
+      - Student
+      summary: View student's progress
+      responses:
+        "200":
+          description: Progress retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "404":
+          description: Student not found
+  /student/get:
+    get:
+      tags:
+      - Student
+      summary: Get a student by ID
+      responses:
+        "200":
+          description: Student retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        "401":
+          description: Unauthorized - Student not logged in or batch not found
+        "500":
+          description: Internal Server Error
+  /student/getAll/{batchId}:
+    get:
+      tags:
+      - Student
+      summary: get all students related to a batch
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to get
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: students rerived successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        "404":
+          description: Batch not found
+  /student/announcement/batch:
+    get:
+      tags:
+      - Student
+      - Announcement
+      summary: View announcements by batch
+      responses:
+        "200":
+          description: Announcements retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Announcement'
+        "401":
+          description: Unauthorized - Student not logged in or batch not found
+        "500":
+          description: Internal Server Error
+  /student/announcement/student:
+    get:
+      tags:
+      - Student
+      - Announcement
+      summary: View announcements for a specific student
+      responses:
+        "200":
+          description: Announcements retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Announcement'
+        "401":
+          description: Unauthorized - Student not logged in
+        "500":
+          description: Internal Server Error
+  /student/workshop/batch:
+    get:
+      tags:
+      - Student
+      - Workshop
+      summary: View workshops by batch
+      responses:
+        "200":
+          description: Workshops retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workshop'
+        "401":
+          description: Unauthorized - Student not logged in or batch not found
+        "500":
+          description: Internal Server Error
+  /student/workshop/student:
+    get:
+      tags:
+      - Student
+      - Workshop
+      summary: View workshops for a specific student
+      responses:
+        "200":
+          description: Workshops retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workshop'
+        "401":
+          description: Unauthorized - Student not logged in
+        "500":
+          description: Internal Server Error
+  /student/interview/batch:
+    get:
+      tags:
+      - Student
+      - Interview
+      summary: View interviews by batch
+      responses:
+        "200":
+          description: Interviews retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Interview'
+        "401":
+          description: Unauthorized - Student not logged in or batch not found
+        "500":
+          description: Internal Server Error
+  /student/interview/student:
+    get:
+      tags:
+      - Student
+      - Interview
+      summary: View interviews for a specific student
+      responses:
+        "200":
+          description: Interviews retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Interview'
+        "401":
+          description: Unauthorized - Student not logged in
+        "500":
+          description: Internal Server Error
+  /batch/add:
+    post:
+      tags:
+      - Batch
+      summary: Add a new batch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Batch created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
+        "400":
+          description: Invalid input
+  /batch/delete/{batchId}:
+    delete:
+      tags:
+      - Batch
+      summary: Delete a batch by ID
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Batch deleted successfully
+        "404":
+          description: Batch not found
+  /batch/get/{batchId}:
+    get:
+      tags:
+      - Batch
+      summary: Get batch details by ID
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to retrieve
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Batch details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
+        "404":
+          description: Batch not found
+  /batch/getAll:
+    get:
+      tags:
+      - Batch
+      summary: Get all batches
+      responses:
+        "200":
+          description: Batches retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Batch'
+        "404":
+          description: No batches found
+  /batch/update/{batchId}:
+    put:
+      tags:
+      - Batch
+      summary: Update batch details
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: Batch updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch'
+        "400":
+          description: Invalid input
+        "404":
+          description: Batch not found
+  /lecturer/add:
+    post:
+      tags:
+      - Lecturer
+      summary: Add a new lecturer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LecturerCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Lecturer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+        "400":
+          description: Invalid input
+  /lecturer/announcement/add/batchwise/{batchId}:
+    post:
+      tags:
+      - Lecturer
+      - Announcements
+      summary: Add a batch-wise announcement
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to send the announcement to
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnouncementCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Announcement created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Announcement'
+        "400":
+          description: Invalid input
+        "404":
+          description: Batch not found
+  /lecturer/announcement/add/individual/{studentId}:
+    post:
+      tags:
+      - Lecturer
+      - Announcements
+      summary: Add an individual announcement to a student
+      parameters:
+      - name: studentId
+        in: path
+        description: ID of the student to send the announcement to
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnouncementCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Announcement created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Announcement'
+        "400":
+          description: Invalid input
+        "404":
+          description: Student not found
+  /lecturer/announcement/update/{id}:
+    put:
+      tags:
+      - Lecturer
+      - Announcements
+      summary: Update an announcement
+      parameters:
+      - name: id
+        in: path
+        description: ID of the announcement to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnouncementUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: Announcement updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Announcement'
+        "400":
+          description: Invalid input
+        "404":
+          description: Announcement not found
+  /lecturer/announcement/view:
+    get:
+      tags:
+      - Lecturer
+      - Announcements
+      summary: View all announcements
+      responses:
+        "200":
+          description: Announcements retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Announcement'
+        "404":
+          description: No announcements found
+  /lecturer/delete/{lecturerId}:
+    delete:
+      tags:
+      - Lecturer
+      summary: Delete a lecturer by ID
+      parameters:
+      - name: lecturerId
+        in: path
+        description: ID of the lecturer to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Lecturer deleted successfully
+        "404":
+          description: Lecturer not found
+  /lecturer/deleteAnnouncement/{announcementId}:
+    delete:
+      tags:
+      - Lecturer
+      - Announcements
+      summary: Delete an announcement by ID
+      parameters:
+      - name: announcementId
+        in: path
+        description: ID of the announcement to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Announcement deleted successfully
+        "404":
+          description: Announcement not found
+  /lecturer/deleteInterview/{interviewId}:
+    delete:
+      tags:
+      - Lecturer
+      - Interviews
+      summary: Delete an interview by ID
+      parameters:
+      - name: interviewId
+        in: path
+        description: ID of the interview to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Interview deleted successfully
+        "404":
+          description: Interview not found
+  /lecturer/deleteWorkshop/{workshopId}:
+    delete:
+      tags:
+      - Lecturer
+      - Workshops
+      summary: Delete a workshop by ID
+      parameters:
+      - name: workshopId
+        in: path
+        description: ID of the workshop to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Workshop deleted successfully
+        "404":
+          description: Workshop not found
+  /lecturer/get/batches:
+    get:
+      tags:
+      - Lecturer
+      - Batches
+      summary: Get all batches assigned to the lecturer
+      responses:
+        "200":
+          description: Batches retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Batch'
+        "404":
+          description: No batches found
+  /lecturer/getAll:
+    get:
+      tags:
+      - Lecturer
+      summary: Get all lecturers
+      responses:
+        "200":
+          description: Lecturers retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lecturer'
+        "404":
+          description: No lecturers found
+  /lecturer/interview/add/batchwise/{batchId}:
+    post:
+      tags:
+      - Lecturer
+      - Interviews
+      summary: Add a batch-wise interview
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to add the interview to
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterviewCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Interview created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interview'
+        "400":
+          description: Invalid input
+        "404":
+          description: Batch not found
+  /lecturer/interview/add/individual/{studentId}:
+    post:
+      tags:
+      - Lecturer
+      - Interviews
+      summary: Add an individual interview for a student
+      parameters:
+      - name: studentId
+        in: path
+        description: ID of the student to add the interview for
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterviewCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Interview created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interview'
+        "400":
+          description: Invalid input
+        "404":
+          description: Student not found
+  /lecturer/interview/update/{id}:
+    put:
+      tags:
+      - Lecturer
+      - Interviews
+      summary: Update an interview
+      parameters:
+      - name: id
+        in: path
+        description: ID of the interview to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InterviewUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: Interview updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Interview'
+        "400":
+          description: Invalid input
+        "404":
+          description: Interview not found
+  /lecturer/interview/view:
+    get:
+      tags:
+      - Lecturer
+      - Interviews
+      summary: View all interviews
+      responses:
+        "200":
+          description: Interviews retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Interview'
+        "404":
+          description: No interviews found
+  /lecturer/password/update:
+    put:
+      tags:
+      - Lecturer
+      summary: Update lecturer's password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePasswordRequest'
+        required: true
+      responses:
+        "200":
+          description: Password updated successfully
+        "400":
+          description: Invalid input or current password incorrect
+        "404":
+          description: Lecturer not found
+  /lecturer/profile:
+    get:
+      tags:
+      - Lecturer
+      summary: Get lecturer's profile
+      responses:
+        "200":
+          description: Lecturer profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+        "404":
+          description: Lecturer not found
+  /lecturer/profile/update:
+    put:
+      tags:
+      - Lecturer
+      summary: Update lecturer's profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LecturerUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: Lecturer profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+        "400":
+          description: Invalid input
+        "404":
+          description: Lecturer not found
+  /lecturer/search/students/{batchId}:
+    get:
+      tags:
+      - Lecturer
+      - Students
+      summary: Search students in a specific batch
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to search students in
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Students retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        "404":
+          description: Batch or students not found
+  /lecturer/update/{lecturerId}:
+    put:
+      tags:
+      - Lecturer
+      summary: Update lecturer details
+      parameters:
+      - name: lecturerId
+        in: path
+        description: ID of the lecturer to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LecturerUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: Lecturer updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturer'
+        "400":
+          description: Invalid input
+        "404":
+          description: Lecturer not found
+  /lecturer/view-messages:
+    get:
+      tags:
+      - Lecturer
+      - Messages
+      summary: View lecturer's messages
+      responses:
+        "200":
+          description: Messages retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        "404":
+          description: No messages found
+  /lecturer/workshop/add/batchwise/{batchId}:
+    post:
+      tags:
+      - Lecturer
+      - Workshops
+      summary: Add a batch-wise workshop
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to add the workshop to
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkshopCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Workshop created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workshop'
+        "400":
+          description: Invalid input
+        "404":
+          description: Batch not found
+  /lecturer/workshop/add/individual/{studentId}:
+    post:
+      tags:
+      - Lecturer
+      - Workshops
+      summary: Add an individual workshop for a student
+      parameters:
+      - name: studentId
+        in: path
+        description: ID of the student to add the workshop for
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkshopCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Workshop created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workshop'
+        "400":
+          description: Invalid input
+        "404":
+          description: Student not found
+  /lecturer/workshop/update/{id}:
+    put:
+      tags:
+      - Lecturer
+      - Workshops
+      summary: Update a workshop
+      parameters:
+      - name: id
+        in: path
+        description: ID of the workshop to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkshopUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: Workshop updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workshop'
+        "400":
+          description: Invalid input
+        "404":
+          description: Workshop not found
+  /lecturer/workshop/view:
+    get:
+      tags:
+      - Lecturer
+      - Workshops
+      summary: View all workshops
+      responses:
+        "200":
+          description: Workshops retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workshop'
+        "404":
+          description: No workshops found
+  /api/lecturer/download-document/{documentId}:
+    get:
+      tags:
+      - Lecturer
+      summary: Download a document
+      description: Allows lecturers to download a specific document assigned to them using the document ID.
+      parameters:
+      - name: documentId
+        in: path
+        description: The unique ID of the document to be downloaded.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: File downloaded successfully
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Unauthorized access
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_401'
+        "400":
+          description: Document not found or access denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+  /feedback/add/batchwise/{batchId}:
+    post:
+      tags:
+      - Feedback
+      summary: Add batch-wise feedback
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to add feedback to
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Feedback added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        "400":
+          description: Invalid input
+        "404":
+          description: Batch not found
+  /feedback/add/individual/{studentId}:
+    post:
+      tags:
+      - Feedback
+      summary: Add individual feedback for a student
+      parameters:
+      - name: studentId
+        in: path
+        description: ID of the student to add feedback for
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Feedback added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        "400":
+          description: Invalid input
+        "404":
+          description: Student not found
+  /feedback/delete/{id}:
+    delete:
+      tags:
+      - Feedback
+      summary: Delete feedback by ID
+      parameters:
+      - name: id
+        in: path
+        description: ID of the feedback to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Feedback deleted successfully
+        "404":
+          description: Feedback not found
+  /feedback/update/{id}:
+    put:
+      tags:
+      - Feedback
+      summary: Update feedback by ID
+      parameters:
+      - name: id
+        in: path
+        description: ID of the feedback to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: Feedback updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        "400":
+          description: Invalid input
+        "404":
+          description: Feedback not found
+  /feedback/view/batch/{batchId}:
+    get:
+      tags:
+      - Feedback
+      summary: View all feedback for a specific batch
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to view feedback for
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Feedback retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Feedback'
+        "404":
+          description: No feedback found for the batch
+  /feedback/view/profile/student:
+    get:
+      tags:
+      - Feedback
+      summary: View feedback for the authenticated student
+      responses:
+        "200":
+          description: Feedback retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Feedback'
+        "404":
+          description: No feedback found for the student
+  /feedback/view/student/{studentId}:
+    get:
+      tags:
+      - Feedback
+      summary: View feedback for a specific student
+      parameters:
+      - name: studentId
+        in: path
+        description: ID of the student to view feedback for
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Feedback retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Feedback'
+        "404":
+          description: No feedback found for the student
+  /portfolio/add:
+    post:
+      tags:
+      - Portfolio
+      summary: Add a new portfolio
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortfolioCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Portfolio added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+        "400":
+          description: Invalid input
+  /portfolio/delete/{id}:
+    delete:
+      tags:
+      - Portfolio
+      summary: Delete a portfolio by ID
+      parameters:
+      - name: id
+        in: path
+        description: ID of the portfolio to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Portfolio deleted successfully
+        "404":
+          description: Portfolio not found
+  /portfolio/update/{id}:
+    put:
+      tags:
+      - Portfolio
+      summary: Update a portfolio by ID
+      parameters:
+      - name: id
+        in: path
+        description: ID of the portfolio to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortfolioUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: Portfolio updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Portfolio'
+        "400":
+          description: Invalid input
+        "404":
+          description: Portfolio not found
+  /portfolio/view:
+    get:
+      tags:
+      - Portfolio
+      summary: View all portfolios
+      responses:
+        "200":
+          description: Portfolios retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Portfolio'
+        "404":
+          description: No portfolios found
+  /team/add:
+    post:
+      tags:
+      - Team
+      summary: Add a new team
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamCreateRequest'
+        required: true
+      responses:
+        "201":
+          description: Team added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        "400":
+          description: Invalid input
+  /team/delete/{teamId}:
+    delete:
+      tags:
+      - Team
+      summary: Delete a team by ID
+      parameters:
+      - name: teamId
+        in: path
+        description: ID of the team to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Team deleted successfully
+        "404":
+          description: Team not found
+  /team/students/inAteam/{lecturerId}:
+    get:
+      tags:
+      - Team
+      - Students
+      summary: Get students in a team supervised by a lecturer
+      parameters:
+      - name: lecturerId
+        in: path
+        description: ID of the lecturer
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Students in a team retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        "404":
+          description: No students found in a team for the lecturer
+  /team/students/notInAteam/{lecturerId}:
+    get:
+      tags:
+      - Team
+      - Students
+      summary: Get students not in any team supervised by a lecturer
+      parameters:
+      - name: lecturerId
+        in: path
+        description: ID of the lecturer
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Students not in any team retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        "404":
+          description: All students are in teams or no students found
+  /team/update/{id}:
+    put:
+      tags:
+      - Team
+      summary: Update a team by ID
+      parameters:
+      - name: id
+        in: path
+        description: ID of the team to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamUpdateRequest'
+        required: true
+      responses:
+        "200":
+          description: Team updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        "400":
+          description: Invalid input
+        "404":
+          description: Team not found
+  /team/view/batch/{batchId}:
+    get:
+      tags:
+      - Team
+      summary: View all teams in a specific batch
+      parameters:
+      - name: batchId
+        in: path
+        description: ID of the batch to view teams for
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Teams retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+        "404":
+          description: No teams found for the batch
+  /organizing-team/contact-event-head:
+    post:
+      tags:
+      - Organizing Team
+      summary: Contact the event head
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactEventHeadRequest'
+        required: true
+      responses:
+        "200":
+          description: Message sent successfully
+        "400":
+          description: Invalid input
+  /organizing-team/delete-document/{documentId}:
+    delete:
+      tags:
+      - Organizing Team
+      summary: Delete a document by ID
+      parameters:
+      - name: documentId
+        in: path
+        description: ID of the document to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Document deleted successfully
+        "404":
+          description: Document not found
+  /organizing-team/delete-message/{messageId}:
+    delete:
+      tags:
+      - Organizing Team
+      summary: Delete a message by ID
+      parameters:
+      - name: messageId
+        in: path
+        description: ID of the message to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Message deleted successfully
+        "404":
+          description: Message not found
+  /organizing-team/delete-progress/{progressId}:
+    delete:
+      tags:
+      - Organizing Team
+      summary: Delete a progress update by ID
+      parameters:
+      - name: progressId
+        in: path
+        description: ID of the progress update to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Progress update deleted successfully
+        "404":
+          description: Progress update not found
+  /organizing-team/send-progress-update:
+    post:
+      tags:
+      - Organizing Team
+      summary: Send a progress update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProgressUpdateRequest'
+        required: true
+      responses:
+        "201":
+          description: Progress update sent successfully
+        "400":
+          description: Invalid input
+  /organizing-team/upload-document:
+    post:
+      tags:
+      - Organizing Team
+      summary: Upload a document
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/organizingteam_uploaddocument_body'
+        required: true
+      responses:
+        "201":
+          description: Document uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201'
+        "400":
+          description: Invalid file upload
+  /auth/admin/login:
+    post:
+      tags:
+      - Authentication
+      summary: Admin login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "401":
+          description: Unauthorized - Invalid credentials
+  /auth/lecturer/login:
+    post:
+      tags:
+      - Authentication
+      summary: Lecturer login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "401":
+          description: Unauthorized - Invalid credentials
+  /auth/student/login:
+    post:
+      tags:
+      - Authentication
+      summary: Student login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        "200":
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "401":
+          description: Unauthorized - Invalid credentials
+  /logout/admin:
+    post:
+      tags:
+      - Authentication
+      summary: Admin logout
+      responses:
+        "200":
+          description: Logout successful
+        "400":
+          description: Bad request
+  /logout/lecturer:
+    post:
+      tags:
+      - Authentication
+      summary: Lecturer logout
+      responses:
+        "200":
+          description: Logout successful
+        "400":
+          description: Bad request
+  /logout/student:
+    post:
+      tags:
+      - Authentication
+      summary: Student logout
+      responses:
+        "200":
+          description: Logout successful
+        "400":
+          description: Bad request
+components:
+  schemas:
+    Admin:
+      required:
+      - email
+      - id
+      - password
+      - userName
+      type: object
+      properties:
+        id:
+          type: string
+          example: A001
+        userName:
+          type: string
+          example: adminUser
+        password:
+          type: string
+          format: password
+          example: securePassword123
+        email:
+          type: string
+          format: email
+          example: admin@example.com
+        loginAttempt:
+          type: integer
+          example: 0
+        status:
+          type: string
+          example: ACTIVE
+    AdminCreateRequest:
+      required:
+      - email
+      - id
+      - password
+      - userName
+      type: object
+      properties:
+        id:
+          type: string
+          example: A002
+        userName:
+          type: string
+          example: newAdmin
+        password:
+          type: string
+          format: password
+          example: newPassword123
+        email:
+          type: string
+          format: email
+          example: newadmin@example.com
+        loginAttempt:
+          type: integer
+          example: 0
+        status:
+          type: string
+          example: ACTIVE
+    AdminUpdateRequest:
+      required:
+      - email
+      - loginAttempt
+      - password
+      - status
+      - userName
+      type: object
+      properties:
+        userName:
+          type: string
+          example: updatedAdmin
+        password:
+          type: string
+          format: password
+          example: updatedPassword123
+        email:
+          type: string
+          format: email
+          example: updatedadmin@example.com
+        loginAttempt:
+          type: integer
+          example: 1
+        status:
+          type: string
+          example: INACTIVE
+    ToggleStatusRequest:
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          example: ACTIVE
+    Student:
+      required:
+      - adminId
+      - batchId
+      - contact
+      - email
+      - id
+      - name
+      - password
+      - regDate
+      - role
+      - year
+      type: object
+      properties:
+        id:
+          type: string
+          example: B2024-001
+        password:
+          type: string
+          format: password
+          example: studentPassword123
+        regDate:
+          type: string
+          format: date
+          example: 2024-09-01
+        year:
+          type: integer
+          example: 2
+        contact:
+          type: string
+          example: 123-456-7890
+        email:
+          type: string
+          format: email
+          example: student@example.com
+        name:
+          type: string
+          example: John Doe
+        photo:
+          type: string
+          format: uri
+          example: http://example.com/photos/johndoe.jpg
+        role:
+          type: string
+          example: STUDENT
+        adminId:
+          type: string
+          example: A001
+        batchId:
+          type: string
+          example: Batch2024
+    StudentCreateRequest:
+      required:
+      - contact
+      - email
+      - name
+      - password
+      - regDate
+      - year
+      type: object
+      properties:
+        password:
+          type: string
+          format: password
+          example: studentPassword123
+        regDate:
+          type: string
+          format: date
+          example: 2024-09-01
+        year:
+          type: integer
+          example: 1
+        contact:
+          type: string
+          example: 098-765-4321
+        email:
+          type: string
+          format: email
+          example: newstudent@example.com
+        name:
+          type: string
+          example: Jane Smith
+        photo:
+          type: string
+          format: uri
+          example: http://example.com/photos/janesmith.jpg
+    StudentUpdateRequest:
+      required:
+      - contact
+      - email
+      - name
+      - password
+      - role
+      - year
+      type: object
+      properties:
+        password:
+          type: string
+          format: password
+          example: updatedPassword123
+        year:
+          type: integer
+          example: 3
+        contact:
+          type: string
+          example: 111-222-3333
+        email:
+          type: string
+          format: email
+          example: updatedstudent@example.com
+        name:
+          type: string
+          example: John Updated
+        photo:
+          type: string
+          format: uri
+          example: http://example.com/photos/johnupdated.jpg
+        role:
+          type: string
+          example: STUDENT
+    UpdatePasswordRequest:
+      required:
+      - currentPassword
+      - newPassword
+      type: object
+      properties:
+        currentPassword:
+          type: string
+          format: password
+          example: oldPassword123
+        newPassword:
+          type: string
+          format: password
+          example: newPassword456
+    UpdateProfileRequest:
+      required:
+      - contact
+      - email
+      - name
+      type: object
+      properties:
+        contact:
+          type: string
+          example: 222-333-4444
+        email:
+          type: string
+          format: email
+          example: updatedemail@example.com
+        name:
+          type: string
+          example: Updated Name
+        photo:
+          type: string
+          format: uri
+          example: http://example.com/photos/updatedphoto.jpg
+    Batch:
+      required:
+      - admin
+      - course
+      - department
+      - id
+      - name
+      - startDate
+      type: object
+      properties:
+        id:
+          type: string
+          example: B2024
+        name:
+          type: string
+          example: Batch of 2024
+        startDate:
+          type: string
+          format: date
+          example: 2024-09-01
+        department:
+          type: string
+          example: Computer Science
+        course:
+          type: string
+          example: B.Tech
+        admin:
+          $ref: '#/components/schemas/Admin'
+    BatchCreateRequest:
+      required:
+      - course
+      - department
+      - id
+      - name
+      - startDate
+      type: object
+      properties:
+        id:
+          type: string
+          example: B2025
+        name:
+          type: string
+          example: Batch of 2025
+        startDate:
+          type: string
+          format: date
+          example: 2025-01-15
+        department:
+          type: string
+          example: Electrical Engineering
+        course:
+          type: string
+          example: B.E.
+    BatchUpdateRequest:
+      required:
+      - course
+      - department
+      - name
+      - startDate
+      type: object
+      properties:
+        name:
+          type: string
+          example: Updated Batch Name
+        startDate:
+          type: string
+          format: date
+          example: 2025-02-01
+        department:
+          type: string
+          example: Mechanical Engineering
+        course:
+          type: string
+          example: M.E.
+    Lecturer:
+      required:
+      - admin
+      - contact
+      - courseAssign
+      - department
+      - email
+      - id
+      - name
+      - password
+      type: object
+      properties:
+        id:
+          type: string
+          example: L001
+        password:
+          type: string
+          format: password
+          example: lecturerPassword123
+        name:
+          type: string
+          example: Dr. Alice Johnson
+        email:
+          type: string
+          format: email
+          example: alice.johnson@example.com
+        department:
+          type: string
+          example: Computer Science
+        contact:
+          type: string
+          example: 555-123-4567
+        courseAssign:
+          type: string
+          example: Data Structures
+        admin:
+          $ref: '#/components/schemas/Admin'
+    LecturerCreateRequest:
+      required:
+      - adminId
+      - contact
+      - courseAssign
+      - department
+      - email
+      - id
+      - name
+      - password
+      type: object
+      properties:
+        id:
+          type: string
+          example: L002
+        password:
+          type: string
+          format: password
+          example: newLecturerPassword123
+        name:
+          type: string
+          example: Dr. Bob Smith
+        email:
+          type: string
+          format: email
+          example: bob.smith@example.com
+        department:
+          type: string
+          example: Mathematics
+        contact:
+          type: string
+          example: 555-987-6543
+        courseAssign:
+          type: string
+          example: Calculus
+        adminId:
+          type: string
+          example: A001
+    LecturerUpdateRequest:
+      required:
+      - contact
+      - courseAssign
+      - department
+      - email
+      - name
+      - password
+      type: object
+      properties:
+        password:
+          type: string
+          format: password
+          example: updatedLecturerPassword123
+        name:
+          type: string
+          example: Dr. Alice Johnson Updated
+        email:
+          type: string
+          format: email
+          example: alice.johnson.updated@example.com
+        department:
+          type: string
+          example: Information Technology
+        contact:
+          type: string
+          example: 555-765-4321
+        courseAssign:
+          type: string
+          example: Algorithms
+    Announcement:
+      required:
+      - content
+      - createdAt
+      - id
+      - lecturer
+      - targetId
+      - targetType
+      type: object
+      properties:
+        id:
+          type: string
+          example: ANN001
+        content:
+          type: string
+          example: Welcome to the new semester!
+        targetType:
+          type: string
+          example: BATCHWISE
+        targetId:
+          type: string
+          example: Batch2024
+        createdAt:
+          type: string
+          format: date-time
+          example: 2024-09-01T10:00:00Z
+        lecturer:
+          $ref: '#/components/schemas/Lecturer'
+    AnnouncementCreateRequest:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: string
+          example: New assignment has been posted.
+    AnnouncementUpdateRequest:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: string
+          example: Updated announcement content.
+    Interview:
+      required:
+      - companyName
+      - id
+      - lecturer
+      - mode
+      - position
+      - scheduledAt
+      - targetId
+      - targetType
+      type: object
+      properties:
+        id:
+          type: string
+          example: INT001
+        companyName:
+          type: string
+          example: TechCorp
+        position:
+          type: string
+          example: Software Engineer
+        mode:
+          type: string
+          example: Online
+        targetType:
+          type: string
+          example: BATCHWISE
+        targetId:
+          type: string
+          example: Batch2024
+        scheduledAt:
+          type: string
+          format: date-time
+          example: 2024-10-15T09:00:00Z
+        lecturer:
+          $ref: '#/components/schemas/Lecturer'
+    InterviewCreateRequest:
+      required:
+      - companyName
+      - mode
+      - position
+      type: object
+      properties:
+        companyName:
+          type: string
+          example: InnovateX
+        position:
+          type: string
+          example: Data Analyst
+        mode:
+          type: string
+          example: In-Person
+    InterviewUpdateRequest:
+      required:
+      - companyName
+      - mode
+      - position
+      type: object
+      properties:
+        companyName:
+          type: string
+          example: InnovateX Updated
+        position:
+          type: string
+          example: Senior Data Analyst
+        mode:
+          type: string
+          example: Hybrid
+    Workshop:
+      required:
+      - contact
+      - id
+      - lecturer
+      - scheduledAt
+      - targetId
+      - targetType
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          example: WS001
+        type:
+          type: string
+          example: Technical
+        contact:
+          type: string
+          example: contact@workshop.com
+        targetType:
+          type: string
+          example: BATCHWISE
+        targetId:
+          type: string
+          example: Batch2024
+        scheduledAt:
+          type: string
+          format: date-time
+          example: 2024-11-20T14:00:00Z
+        lecturer:
+          $ref: '#/components/schemas/Lecturer'
+    WorkshopCreateRequest:
+      required:
+      - contact
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          example: Soft Skills
+        contact:
+          type: string
+          example: workshop@events.com
+    WorkshopUpdateRequest:
+      required:
+      - contact
+      - type
+      type: object
+      properties:
+        type:
+          type: string
+          example: Advanced Soft Skills
+        contact:
+          type: string
+          example: advanced@workshop.com
+    Message:
+      required:
+      - content
+      - id
+      - recipient
+      - sender
+      - sentAt
+      type: object
+      properties:
+        id:
+          type: string
+          example: MSG001
+        sender:
+          type: string
+          example: organizer@example.com
+        recipient:
+          type: string
+          example: eventhead@example.com
+        content:
+          type: string
+          example: Can you confirm the venue for the event?
+        sentAt:
+          type: string
+          format: date-time
+          example: 2024-09-05T12:30:00Z
+    LoginRequest:
+      required:
+      - password
+      - userId
+      type: object
+      properties:
+        userId:
+          type: string
+          example: admin123
+        password:
+          type: string
+          format: password
+          example: password123
+    Feedback:
+      required:
+      - content
+      - date
+      - fId
+      - lecturer
+      - points
+      type: object
+      properties:
+        fId:
+          type: string
+          example: F001
+        content:
+          type: string
+          example: Great job on the project!
+        points:
+          type: integer
+          example: 5
+        date:
+          type: string
+          format: date
+          example: 2024-09-10
+        batchId:
+          type: string
+          example: Batch2024
+        studentId:
+          type: string
+          example: B2024-001
+        lecturer:
+          $ref: '#/components/schemas/Lecturer'
+    FeedbackCreateRequest:
+      required:
+      - content
+      - points
+      type: object
+      properties:
+        content:
+          type: string
+          example: Excellent participation in class.
+        points:
+          type: integer
+          example: 4
+    FeedbackUpdateRequest:
+      required:
+      - content
+      - points
+      type: object
+      properties:
+        content:
+          type: string
+          example: Updated feedback content.
+        points:
+          type: integer
+          example: 5
+    Portfolio:
+      required:
+      - about
+      - bio
+      - id
+      - name
+      - projects
+      - studentId
+      type: object
+      properties:
+        id:
+          type: string
+          example: P001
+        name:
+          type: string
+          example: John's Portfolio
+        about:
+          type: string
+          example: About John Doe
+        projects:
+          type: string
+          example: "Project A, Project B"
+        photo:
+          type: string
+          format: uri
+          example: http://example.com/photos/johnportfolio.jpg
+        bio:
+          type: string
+          example: Bio of John Doe
+        studentId:
+          type: string
+          example: B2024-001
+    PortfolioCreateRequest:
+      required:
+      - about
+      - bio
+      - name
+      - projects
+      - studentId
+      type: object
+      properties:
+        name:
+          type: string
+          example: Jane's Portfolio
+        about:
+          type: string
+          example: About Jane Smith
+        projects:
+          type: string
+          example: "Project X, Project Y"
+        photo:
+          type: string
+          format: uri
+          example: http://example.com/photos/janeportfolio.jpg
+        bio:
+          type: string
+          example: Bio of Jane Smith
+        studentId:
+          type: string
+          example: B2024-002
+    PortfolioUpdateRequest:
+      required:
+      - about
+      - bio
+      - name
+      - projects
+      type: object
+      properties:
+        name:
+          type: string
+          example: Jane's Updated Portfolio
+        about:
+          type: string
+          example: Updated about Jane Smith
+        projects:
+          type: string
+          example: "Updated Project X, Project Z"
+        photo:
+          type: string
+          format: uri
+          example: http://example.com/photos/janeupdatedportfolio.jpg
+        bio:
+          type: string
+          example: Updated bio of Jane Smith
+    Team:
+      required:
+      - batchId
+      - id
+      - leaderId
+      - lecturerId
+      - members
+      type: object
+      properties:
+        id:
+          type: string
+          example: T001
+        leaderId:
+          type: string
+          example: B2024-001
+        members:
+          type: string
+          example: "B2024-002,B2024-003"
+        description:
+          type: string
+          example: Team working on AI project
+        batchId:
+          type: string
+          example: Batch2024
+        lecturerId:
+          type: string
+          example: L001
+    TeamCreateRequest:
+      required:
+      - batchId
+      - leaderId
+      - lecturerId
+      - members
+      type: object
+      properties:
+        leaderId:
+          type: string
+          example: B2024-001
+        members:
+          type: string
+          example: "B2024-002,B2024-003"
+        description:
+          type: string
+          example: Team working on AI project
+        batchId:
+          type: string
+          example: Batch2024
+        lecturerId:
+          type: string
+          example: L001
+    TeamUpdateRequest:
+      required:
+      - batchId
+      - leaderId
+      - lecturerId
+      - members
+      type: object
+      properties:
+        leaderId:
+          type: string
+          example: B2024-004
+        members:
+          type: string
+          example: "B2024-005,B2024-006"
+        description:
+          type: string
+          example: Updated team description
+        batchId:
+          type: string
+          example: Batch2024
+        lecturerId:
+          type: string
+          example: L002
+    ContactEventHeadRequest:
+      required:
+      - content
+      - subject
+      type: object
+      properties:
+        subject:
+          type: string
+          example: Event Coordination
+        content:
+          type: string
+          example: Please provide the latest event schedule.
+    ProgressUpdateRequest:
+      required:
+      - content
+      type: object
+      properties:
+        content:
+          type: string
+          example: Completed the initial project draft.
+    Document:
+      required:
+      - fileName
+      - fileUrl
+      - id
+      - uploadedAt
+      type: object
+      properties:
+        id:
+          type: string
+          example: DOC001
+        fileName:
+          type: string
+          example: event_schedule.pdf
+        fileUrl:
+          type: string
+          format: uri
+          example: http://localhost:8082/uploads/event_schedule.pdf
+        uploadedAt:
+          type: string
+          format: date-time
+          example: 2024-09-15T10:00:00Z
+    Progress:
+      required:
+      - content
+      - progressId
+      - updatedAt
+      type: object
+      properties:
+        progressId:
+          type: string
+          example: PRG001
+        content:
+          type: string
+          example: Project phase 1 completed.
+        updatedAt:
+          type: string
+          format: date-time
+          example: 2024-09-20T15:30:00Z
+    inline_response_200:
+      type: object
+      properties:
+        progress:
+          type: array
+          items:
+            type: object
+            description: Progress details (Define as per your data model)
+    inline_response_401:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Unauthorized access.
+    inline_response_400:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Document not found or access denied.
+    organizingteam_uploaddocument_body:
+      type: object
+      properties:
+        file:
+          type: string
+          description: The document file to upload
+          format: binary
+    inline_response_201:
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: document123.pdf
+        fileUrl:
+          type: string
+          format: uri
+          example: http://localhost:8082/uploads/document123.pdf
+    inline_response_200_1:
+      type: object
+      properties:
+        token:
+          type: string
+          description: JWT token
