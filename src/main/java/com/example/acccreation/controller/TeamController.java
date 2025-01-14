@@ -77,22 +77,44 @@ public class TeamController {
         }
     }
 
-    @GetMapping("/view/batch/{batchId}")
-    public ResponseEntity<?> viewTeamsByBatch(@PathVariable String batchId) {
+    @GetMapping("/view/batch")
+    public ResponseEntity<?> viewTeamsByBatch(HttpSession session) {
+        String batchId = (String) session.getAttribute("batchId");
         List<Team> teams = teamService.viewTeamsByBatch(batchId);
         return ResponseEntity.ok(teams);
     }
 
-    @GetMapping("/students/inAteam/{batchId}")
-    public ResponseEntity<?> studentsInTeam(@PathVariable String batchId) {
-        List<String> students = teamService.studentsInTeam(batchId);
-        return ResponseEntity.ok(students);
+    @GetMapping("/students/inAteam")
+    public ResponseEntity<?> studentsInTeam(HttpSession session) {
+        String batchId = (String) session.getAttribute("batchId");
+
+        if (batchId == null || batchId.isEmpty()) {
+            return ResponseEntity.status(400).body("Batch ID is missing in the session. Please log in again.");
+        }
+
+        try {
+            List<String> students = teamService.studentsInTeam(batchId);
+            return ResponseEntity.ok(students);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(500).body("Error fetching students in a team: " + e.getMessage());
+        }
     }
 
-    @GetMapping("/students/notInAteam/{batchId}")
-    public ResponseEntity<?> studentsNotInTeam(@PathVariable String batchId) {
-        List<String> students = teamService.studentsNotInTeam(batchId);
-        return ResponseEntity.ok(students);
+    @GetMapping("/students/notInAteam")
+    public ResponseEntity<?> studentsNotInTeam(HttpSession session) {
+        String batchId = (String) session.getAttribute("batchId");
+
+        if (batchId == null || batchId.isEmpty()) {
+            return ResponseEntity.status(400).body("Batch ID is missing in the session. Please log in again.");
+        }
+
+        try {
+            List<String> students = teamService.studentsNotInTeam(batchId);
+            return ResponseEntity.ok(students);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(500).body("Error fetching students not in a team: " + e.getMessage());
+        }
     }
+
 }
 

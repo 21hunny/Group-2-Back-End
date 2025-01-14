@@ -1,15 +1,11 @@
 package com.example.acccreation.controller;
 
 import com.example.acccreation.dto.*;
-import com.example.acccreation.entity.Admin;
-import com.example.acccreation.entity.Lecturer;
-import com.example.acccreation.entity.Event;
-import com.example.acccreation.entity.Workshop;
-import com.example.acccreation.entity.Interview;
-import com.example.acccreation.entity.Announcement;
+import com.example.acccreation.entity.*;
 import com.example.acccreation.repository.AdminRepository;
 import com.example.acccreation.service.LecturerService;
 import com.example.acccreation.service.OrganizingTeamService;
+import com.example.acccreation.service.PortfolioService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +29,9 @@ public class LecturerController {
 
     @Autowired
     private LecturerService lecturerService;
+
+    @Autowired
+    private PortfolioService portfolioService;
 
     @Autowired
     private AdminRepository adminRepository;
@@ -478,6 +477,25 @@ public class LecturerController {
         }
     }
 
+    /**
+     * View portfolios of a specific student
+     * Endpoint: GET /api/lecturer/portfolio/view/{studentId}
+     */
+    @GetMapping("/portfolio/view/{studentId}")
+    public ResponseEntity<?> viewPortfoliosByStudentId(@PathVariable String studentId, HttpSession session) {
+        String lecturerId = (String) session.getAttribute("userLId"); // Ensure lecturer is logged in
+        if (lecturerId == null) {
+            return ResponseEntity.status(401).body("Lecturer not logged in.");
+        }
+
+        try {
+            // Fetch portfolios for the given student ID
+            List<Portfolio> portfolios = portfolioService.getPortfoliosByStudentId(studentId);
+            return ResponseEntity.ok(portfolios);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(400).body("Error: " + e.getMessage());
+        }
+    }
 
 
 

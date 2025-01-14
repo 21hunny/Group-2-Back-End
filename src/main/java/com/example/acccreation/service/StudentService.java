@@ -249,7 +249,7 @@ public class StudentService {
 
 
     public List<AnnouncementResponse> viewAnnouncementsByBatch(String batchId) {
-        List<Event> events = eventRepository.findByLIdAndName(null, "Announcement")
+        List<Event> events = eventRepository.findByName("Announcement")
                 .stream()
                 .filter(event -> batchId.equals(event.getBId()))
                 .toList();
@@ -271,10 +271,16 @@ public class StudentService {
     }
 
     public List<AnnouncementResponse> viewAnnouncementsByStudent(String studentId) {
-        List<Event> events = eventRepository.findByLIdAndName(null, "Announcement")
+        System.out.println("Fetching announcements for studentId: " + studentId);
+
+        // Fetch events without filtering for l_id
+        List<Event> events = eventRepository.findByName("Announcement")
                 .stream()
-                .filter(event -> studentId.equals(event.getSId()))
+                .filter(event -> studentId.equals(event.getSId())) // Filter by studentId
                 .toList();
+
+        System.out.println("Filtered events for announcements: " + events);
+
         return events.stream().map(event -> {
             Announcement announcement = announcementRepository.findByEId(event.getId());
             return new AnnouncementResponse(
@@ -292,8 +298,10 @@ public class StudentService {
         }).toList();
     }
 
+
+
     public List<WorkshopResponse> viewWorkshopsByBatch(String batchId) {
-        List<Event> events = eventRepository.findByLIdAndName(null, "Workshop")
+        List<Event> events = eventRepository.findByName("Workshop")
                 .stream()
                 .filter(event -> batchId.equals(event.getBId()))
                 .toList();
@@ -315,10 +323,13 @@ public class StudentService {
     }
 
     public List<WorkshopResponse> viewWorkshopsByStudent(String studentId) {
-        List<Event> events = eventRepository.findByLIdAndName(null, "Workshop")
-                .stream()
-                .filter(event -> studentId.equals(event.getSId()))
-                .toList();
+        System.out.println("Fetching workshops for studentId: " + studentId);
+
+        // Fetch events directly using the new repository query
+        List<Event> events = eventRepository.findByName("Workshop");
+
+        System.out.println("Filtered events for workshops: " + events);
+
         return events.stream().map(event -> {
             Workshop workshop = workshopRepository.findByEId(event.getId());
             return new WorkshopResponse(
@@ -337,7 +348,7 @@ public class StudentService {
     }
 
     public List<InterviewResponse> viewInterviewsByBatch(String batchId) {
-        List<Event> events = eventRepository.findByLIdAndName(null, "Interview")
+        List<Event> events = eventRepository.findByName("Interview")
                 .stream()
                 .filter(event -> batchId.equals(event.getBId()))
                 .toList();
@@ -360,10 +371,13 @@ public class StudentService {
     }
 
     public List<InterviewResponse> viewInterviewsByStudent(String studentId) {
-        List<Event> events = eventRepository.findByLIdAndName(null, "Interview")
-                .stream()
-                .filter(event -> studentId.equals(event.getSId()))
-                .toList();
+        System.out.println("Fetching interviews for studentId: " + studentId);
+
+        // Fetch events directly using the new repository query
+        List<Event> events = eventRepository.findByName("Interview");
+
+        System.out.println("Filtered events for interviews: " + events);
+
         return events.stream().map(event -> {
             Interview interview = interviewRepository.findByEId(event.getId());
             return new InterviewResponse(
@@ -381,7 +395,6 @@ public class StudentService {
             );
         }).toList();
     }
-
 
 
 }
