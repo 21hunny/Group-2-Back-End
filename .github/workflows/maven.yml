@@ -25,20 +25,20 @@ jobs:
         run: mvn -B package -DskipTests --file pom.xml
 
 
-      # Kill any running process on port 8081 (or the port your Spring Boot app uses)
-      - name: Kill process on port 8081
-        run: |
-          # Find and kill the process using port 8081
-          pid=$(sudo lsof -t -i:8081)
-          if [ ! -z "$pid" ]; then
-            echo "Killing process using port 8081 (PID: $pid)"
-            sudo kill -9 $pid
-          else
-            echo "No process found using port 8081"
-          fi
-
-      # #Execute the Spring Boot app (JAR file)
-      - name: Run the Spring Boot application
-        run: |
-          echo "Running the Spring Boot application..."
-          sudo java -jar /home/ubuntu/actions-runner/_work/Group-2-Back-End/Group-2-Back-End/target/acccreation-0.0.1-SNAPSHOT.jar &
+#      # Kill any running process on port 8081 (or the port your Spring Boot app uses)
+#      - name: Kill process on port 8081
+#        run: |
+#          # Find and kill the process using port 8081
+#          pid=$(sudo lsof -t -i:8081)
+#          if [ ! -z "$pid" ]; then
+#            echo "Killing process using port 8081 (PID: $pid)"
+#            sudo kill -9 $pid
+#          else
+#            echo "No process found using port 8081"
+#          fi
+#
+#      # #Execute the Spring Boot app (JAR file)
+#      - name: Run the Spring Boot application
+#        run: |
+#          echo "Running the Spring Boot application..."
+#          sudo java -jar /home/ubuntu/actions-runner/_work/Group-2-Back-End/Group-2-Back-End/target/acccreation-0.0.1-SNAPSHOT.jar &
