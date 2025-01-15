@@ -92,6 +92,7 @@ public class AuthService {
         for (Batch batch : batches) {
             String tableName = "batch_" + batch.getId();
             String query = "SELECT * FROM " + tableName + " WHERE id = ?";
+
             try {
                 List<Map<String, Object>> rows = jdbcTemplate.queryForList(query, username);
                 if (!rows.isEmpty()) {
@@ -103,14 +104,21 @@ public class AuthService {
                         throw new CustomException("Invalid username or password");
                     }
 
+                    // Fetch the role of the student
+                    String role = (String) studentData.get("role"); // Ensure the "role" column exists in the student table
+                    if (role == null || role.isEmpty()) {
+                        role = "STUDENT"; // Default role if none is defined
+                    }
+
+                    // Generate token and store session attributes
                     String token = jwtTokenUtil.generateToken((String) studentData.get("id"));
                     HttpSession session = getSession();
                     session.setAttribute("userSId", studentData.get("id"));
                     session.setAttribute("batchId", batch.getId());
-                    session.setAttribute("role", "STUDENT");
+                    session.setAttribute("role", role);
                     session.setAttribute("token", token);
 
-                    return new JwtResponse(token, (String) studentData.get("id"), "STUDENT");
+                    return new JwtResponse(token, (String) studentData.get("id"), role);
                 }
             } catch (Exception e) {
                 System.err.println("Error querying table " + tableName + ": " + e.getMessage());
@@ -119,7 +127,6 @@ public class AuthService {
 
         throw new CustomException("Invalid username or password");
     }
-
 
     public JwtResponse loginLecturer(LoginRequest request) {
         if (request == null || request.getUserId() == null || request.getPassword() == null) {
