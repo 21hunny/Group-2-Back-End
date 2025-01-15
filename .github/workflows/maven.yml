@@ -37,7 +37,7 @@ jobs:
             echo "No process found using port 8081"
           fi
 
-      #      # Execute the Spring Boot app (JAR file)
+      # Execute the Spring Boot app (JAR file)
       - name: Run the Spring Boot application
         run: |
           echo "Running the Spring Boot application..."
