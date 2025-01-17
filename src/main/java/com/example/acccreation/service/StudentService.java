@@ -51,6 +51,7 @@ public class StudentService {
         studentRequest.setPassword(passwordEncoder.encode(studentRequest.getPassword())); // Hash the password
         studentRequest.setAdminId(admin.getId());
         studentRequest.setBatchId(batchId);
+        studentRequest.setPhoto(studentRequest.getPhoto());
         studentRequest.setRegDate(new Date());
         studentRequest.setRole("batchmate");
 
@@ -155,7 +156,7 @@ public class StudentService {
                 + "contact VARCHAR(50), "
                 + "email VARCHAR(100), "
                 + "name VARCHAR(100), "
-                + "photo LONGBLOB, "
+                + "photo VARCHAR(100), "
                 + "role VARCHAR(50) DEFAULT 'batchmate', "
                 + "a_id VARCHAR(50), "
                 + "b_id VARCHAR(50), "
