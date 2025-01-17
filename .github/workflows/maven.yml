@@ -26,16 +26,16 @@ jobs:
 
 
 #      # Kill any running process on port 8081 (or the port your Spring Boot app uses)
-      - name: Kill process on port 8081
-        run: |
-          # Find and kill the process using port 8081
-          pid=$(sudo lsof -t -i:8081)
-          if [ ! -z "$pid" ]; then
-            echo "Killing process using port 8081 (PID: $pid)"
-            sudo kill -9 $pid
-          else
-            echo "No process found using port 8081"
-          fi
+#      - name: Kill process on port 8081
+#        run: |
+#          # Find and kill the process using port 8081
+#          pid=$(sudo lsof -t -i:8081)
+#          if [ ! -z "$pid" ]; then
+#            echo "Killing process using port 8081 (PID: $pid)"
+#            sudo kill -9 $pid
+#          else
+#            echo "No process found using port 8081"
+#          fi
 
       # Execute the Spring Boot app (JAR file)
       - name: Run the Spring Boot application
