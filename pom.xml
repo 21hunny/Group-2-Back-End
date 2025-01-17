@@ -12,9 +12,11 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>acccreation</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>acccreation</name>
+    <packaging>jar</packaging>
     <description>acccreation</description>
+
     <url/>
     <licenses>
         <license/>
@@ -129,8 +131,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
+
 
 </project>
