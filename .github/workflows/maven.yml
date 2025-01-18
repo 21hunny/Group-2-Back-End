@@ -1,4 +1,4 @@
-name: Java CI with Maven and Deployment
+name: Java CI/CD with Maven and EC2 Deployment
 
 on:
   push:
@@ -6,15 +6,13 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: self-hosted
-    timeout-minutes: 10
-
+    runs-on: ubuntu-latest
     steps:
       # Step 1: Checkout the code
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up JDK 21 for Spring Boot
+      # Step 2: Set up JDK 21 for Maven
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -22,37 +20,41 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      # Step 3: Build the application using Maven
+      # Step 3: Build the application
       - name: Build with Maven
         run: mvn -B package -DskipTests --file pom.xml
 
-      # Step 4: Stop any existing application running on the EC2 instance
-      - name: Stop Existing Application
+      # Step 4: Upload private key to SSH agent
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.8.1
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+
+      # Step 5: Transfer JAR file to EC2 instance
+      - name: Transfer JAR to EC2
         run: |
-          echo "Stopping any existing application running on port 8081..."
-          pid=$(sudo lsof -t -i:8081 || echo "")
-          if [ ! -z "$pid" ]; then
-            echo "Killing process on port 8081 with PID $pid..."
-            sudo kill -9 $pid
-          else
-            echo "No application is currently running on port 8081."
+          scp -o StrictHostKeyChecking=no \
+          target/acccreation-0.0.1-SNAPSHOT.jar \
+          ubuntu@16.171.194.30:/home/ubuntu/app.jar
+
+      # Step 6: Start the application on EC2
+      - name: Start Application
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@16.171.194.30 << 'EOF'
+          # Stop any running application
+          if lsof -t -i:8081 >/dev/null; then
+            echo "Stopping existing application..."
+            sudo kill -9 $(lsof -t -i:8081)
           fi
 
-      # Step 5: Deploy the Spring Boot application
-      - name: Deploy Application
-        run: |
-          echo "Deploying the Spring Boot application..."
-          nohup java -jar /home/ubuntu/actions-runner/_work/Group-2-Back-End/Group-2-Back-End/target/acccreation-0.0.1.jar > /home/ubuntu/app.log 2>&1 &
-          echo "Application deployed successfully!"
+          # Start the new application
+          echo "Starting new application..."
+          nohup java -jar /home/ubuntu/app.jar > /home/ubuntu/app.log 2>&1 &
+          EOF
 
-      # Step 6: Verify the Application Status
+      # Step 7: Verify the application is running
       - name: Verify Application
         run: |
-          echo "Verifying application status..."
-          for i in {1..5}; do
-            curl -f http://16.171.194.30:8081/actuator/health && exit 0 || echo "Retrying in 10 seconds..."
-            sleep 10
-          done
-          echo "Application failed to start."
-          exit 1
-      
+          echo "application verified"
+          sleep 15
+          curl -f http://16.171.194.30:8081/actuator/health || exit 1
