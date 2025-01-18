@@ -55,5 +55,5 @@ jobs:
       # Step 7: Verify the application is running
       - name: Verify Application
         run: |
-          sleep 15
+          sleep 30  # Increase sleep time to give the app more time to start
           curl -f http://16.171.194.30:8081/actuator/health || exit 1
