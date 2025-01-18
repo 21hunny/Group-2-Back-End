@@ -34,7 +34,7 @@ jobs:
       - name: Transfer JAR to EC2
         run: |
           scp -o StrictHostKeyChecking=no \
-          target/acccreation-0.0.1-SNAPSHOT.jar \
+          target/acccreation-0.0.1.jar \
           ubuntu@16.171.194.30:/home/ubuntu/app.jar
 
       # Step 6: Start the application on EC2
