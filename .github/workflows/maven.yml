@@ -49,5 +49,10 @@ jobs:
       - name: Verify Application
         run: |
           echo "Verifying application status..."
-          sleep 10
-          curl -f http://16.171.194.30:8081/actuator/health || exit 1
+          for i in {1..5}; do
+            curl -f http://16.171.194.30:8081/actuator/health && exit 0 || echo "Retrying in 10 seconds..."
+            sleep 10
+          done
+          echo "Application failed to start."
+          exit 1
+      
